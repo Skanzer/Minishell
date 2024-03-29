@@ -1,0 +1,20 @@
+{
+    // Name this configuration
+    "name": "Codespace",
+    // Use the base codespace image
+    "image": "mcr.microsoft.com/vscode/devcontainers/universal:latest",
+  
+    "remoteUser": "codespace",
+    "overrideCommand": false ,
+    // Add the IDs of extensions you want installed when the container is created.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot",
+                "kube.42header",
+                "ms-vscode.cpptools",
+                "lanza.lldb-vscode"
+            ]
+        }
+    }
+  }
