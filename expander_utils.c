@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 15:08:03 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/01 15:09:34 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:17:47 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*insert_var(char *input, int i, char *value, char *name)
 	tmp = malloc(sizeof(char) * (len + 1));
 	if (!tmp)
 		return (NULL);
-	while (input[j])
+	while (input[k])
 	{
 		if (j == i)
 		{

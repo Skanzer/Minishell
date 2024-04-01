@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:45:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/01 15:10:55 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:16:27 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char *get_var_name(char *input, int i)
 	i++;
 	while (input[i])
 	{
-		if (input[i] == ' ' || input[i] == '$' || input[i] == '\0')
+		if (input[i] == ' ' || input[i] == '$' || input[i] == '\0' || input[i] == '\'' || input[i] == '\"')
 			break ;
 		var_len++;
 		i++;
@@ -56,7 +56,7 @@ static char *get_var_name(char *input, int i)
 	var_len = 0;
 	while (input[i])
 	{
-		if (input[i] == ' ' || input[i] == '$' || input[i] == '\0')
+		if (input[i] == ' ' || input[i] == '$' || input[i] == '\0'|| input[i] == '\'' || input[i] == '\"')
 			break ;
 		var_name[var_len++] = input[i++];
 	}

@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/04/01 15:10:17 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/04/01 16:11:06 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ input_error.c\
 utils.c\
 expander.c\
 expander_utils.c\
+free_functions.c\
 
 LIBNAMES = ./libft/libft.a
 

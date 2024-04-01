@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/01 15:09:52 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:10:55 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@
 #define ANSI_WHITE   "\x1B[37m"
 
 # define SUCCESS 0
-# define ALLOC_ERROR 1
+# define INPUT_ERROR 1
+# define ALLOC_ERROR 2
 
 typedef struct s_commands
 {
@@ -72,6 +73,7 @@ typedef struct s_env
 typedef struct s_minishell
 {
 	t_env	*env;
+	char	*input;
 }	t_minishell;
 
 
@@ -91,9 +93,10 @@ void	free_double(char **array, int i);
 int		quotes(char *input, int i);
 /////////////input_error.c//////////////////////////////////////////////
 int		error_check(char *input);
-////////////expansion.c////////////////////////////////////////////////
+////////////expander.c////////////////////////////////////////////////
 char	*input_expansion(char *input, t_env *env);
 char	*insert_var(char *input, int i, char *value, char *name);
 void 	skip_single_quotes(char *input, int *i);
-
+/////////////free_functions.c//////////////////////////////////////////////
+void	free_env(t_minishell *minishell);
 #endif
