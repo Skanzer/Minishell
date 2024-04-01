@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:51:29 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/02/13 18:23:28 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/03/29 21:43:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/**This function colors the different parts
+ * of the prompt
+ * it takes the name, the color and the character
+ * that separates the name from the next part
+*/
 static char	*prompt_color(char *name, char *color, char *c)
 {
 	char	*colored;
@@ -30,7 +34,10 @@ static char	*prompt_color(char *name, char *color, char *c)
 	free(tmp);
 	return (colored);
 }
-
+/**This function joins the Path and
+ * the $ character to the colored prompt
+ * and have the final prompt
+*/
 static char	*join_prompt(char *prompt)
 {
 	char	*tmp;
@@ -49,7 +56,10 @@ static char	*join_prompt(char *prompt)
 		return (NULL);
 	return (tmp);
 }
-
+/**This function create the prompt
+ * it colors the username and hostname
+ * adds them together and adds the current directory
+*/
 static char	*bash_prompt(void)
 {
 	char	*username;
@@ -75,7 +85,9 @@ static char	*bash_prompt(void)
 		return (NULL);
 	return (prompt);
 }
-
+/**This function fixes the bug known as the "line wrap" bug
+ * by adding the \001 and \002 characters to the prompt
+*/
 static char	*color_work(char *prompt)
 {
 	char	*before;
@@ -91,7 +103,10 @@ static char	*color_work(char *prompt)
 		return (NULL);
 	return (after);
 }
-
+/** This function reads the input from the user and returns it
+ * first it prepares the prompt and colors it
+ * then it reads the input and adds it to the history
+*/
 char	*read_input(void)
 {
 	char	*input;
@@ -108,7 +123,7 @@ char	*read_input(void)
 	if (!input)
 	{
 		free(input);
-		exit(EXIT_SUCCESS);
+		return (NULL);
 	}
 	add_history(input);
 	return (input);

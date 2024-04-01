@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+         #
+#    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/02/14 13:25:33 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/04/01 15:10:17 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ get_env.c\
 read_input.c\
 input_error.c\
 utils.c\
-expansion.c\
+expander.c\
+expander_utils.c\
 
 LIBNAMES = ./libft/libft.a
 

@@ -3,64 +3,108 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:48:40 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/01/31 11:31:43 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/03/31 21:27:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**alloc_copy_env(char **env)
+/**This function calculate the length of the name
+ * and the value of the variable env
+*/
+static void	len_v_and_n(char *env, int *name_len, int *value_len)
 {
-	int		i;
-	char	**copy;
+	int	i;
 
 	i = 0;
-	while (env[i])
-		i++;
-	copy = (char **)malloc((i + 1) * sizeof(char *));
-	if (!copy)
+	*name_len = 0;
+	*value_len = 0;
+	while (env[i] != '=')
 	{
-		free(copy);
-		return (NULL);
-	}
-	i = 0;
-	while (env[i])
-	{
-		copy[i] = (char *)malloc((ft_strlen(env[i]) + 1) * sizeof(char));
-		if (!copy[i])
-		{
-			free_double(copy, i);
-			return (NULL);
-		}
+		(*name_len)++;
 		i++;
 	}
-	return (copy);
+	i++;
+	while (env[i])
+	{
+		(*value_len)++;
+		i++;
+	}
 }
-
-char	**get_env(char **env)
+/**This function copy the name
+ * and the value of the variable env
+ * into the the new t_env structure
+*/
+static void	copy_v_and_n(char *env_var, t_env *env)
 {
-	int		i;
-	int		j;
-	char	**copy;
+	int	i;
+	int	j;
 
-	copy = alloc_copy_env(env);
-	if (!copy)
-		return (NULL);
 	i = 0;
-	while (env[i])
+	j = 0;
+	while (env_var[i] != '=')
 	{
-		j = 0;
-		while (env[i][j])
-		{
-			copy[i][j] = env[i][j];
-			j++;
-		}
-		copy[i][j] = '\0';
+		env->name[i] = env_var[i];
 		i++;
 	}
-	copy[i] = NULL;
-	return (copy);
+	env->name[i] = '\0';
+	i++;
+	while(env_var[i])
+	{
+		env->value[j] = env_var[i];
+		i++;
+		j++;
+	}
+	env->value[j] = '\0';
+}
+/**This function copy the name and value of the env variable
+ * and put them in the t_env structure
+ * Memory will be allocated for each variable
+*/
+static int	copy_env(t_env *env, char *env_var)
+{
+	int	name_len;
+	int	value_len;
+
+	len_v_and_n(env_var, &name_len, &value_len);
+	env->name = malloc(sizeof(char) * (name_len + 1));
+	if (!env->name)
+		return (ALLOC_ERROR);
+	env->value = malloc(sizeof(char) * (value_len + 1));
+	if (!env->value)
+		return (ALLOC_ERROR);
+	copy_v_and_n(env_var, env);
+	env->next = NULL;
+	return (SUCCESS);
+}
+/**This function copy the env variables and put them in a list
+ * Memory will be allocated for each variable
+ * and then added to the list
+*/
+int	get_env(t_minishell *mini, char **env)
+{
+	int		i;
+	t_env	*copy;
+	
+	i = 0;
+	mini->env = malloc(sizeof(t_env));
+	if (!mini->env)
+		return (ALLOC_ERROR);
+	copy = mini->env;
+	while (env[i])
+	{
+		if (copy_env(copy, env[i]) == ALLOC_ERROR)
+			return (ALLOC_ERROR);
+		i++;
+		if (!env[i])
+			break;
+		copy->next = malloc(sizeof(t_env));
+		if (!copy->next)
+			return (ALLOC_ERROR);
+		copy = copy->next;
+	}
+	return (SUCCESS);
 }

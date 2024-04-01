@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/02/14 13:27:52 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:09:52 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@
 #define ANSI_CYAN    "\x1B[36m"
 #define ANSI_WHITE   "\x1B[37m"
 
+# define SUCCESS 0
+# define ALLOC_ERROR 1
+
 typedef struct s_commands
 {
 	char				*command;
@@ -59,6 +62,19 @@ typedef struct s_commands
 	struct s_commands	*next;
 }	t_commands;
 
+typedef struct s_env
+{
+	char				*name;
+	char				*value;
+	struct s_env		*next;
+}	t_env;
+
+typedef struct s_minishell
+{
+	t_env	*env;
+}	t_minishell;
+
+
 typedef struct s_tokens
 {
 	char				*token;
@@ -66,7 +82,7 @@ typedef struct s_tokens
 }	t_tokens;
 
 /////////////get_env.c//////////////////////////////////////////////
-char	**get_env(char **env);
+int		get_env(t_minishell *mini, char **env);
 /////////////read_input.c//////////////////////////////////////////////
 char	*read_input(void);
 char	**tokens(char **input);
@@ -74,10 +90,10 @@ char	**tokens(char **input);
 void	free_double(char **array, int i);
 int		quotes(char *input, int i);
 /////////////input_error.c//////////////////////////////////////////////
-void	error_check(char *input);
+int		error_check(char *input);
 ////////////expansion.c////////////////////////////////////////////////
-char	*input_expansion(char *input);
-char	*var_name(char *input, int index);
-int		dollar_sign(char *input, int index);
+char	*input_expansion(char *input, t_env *env);
+char	*insert_var(char *input, int i, char *value, char *name);
+void 	skip_single_quotes(char *input, int *i);
 
 #endif

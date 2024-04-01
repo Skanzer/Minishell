@@ -3,41 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/02/14 13:24:38 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:03:35 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)//int argc, char **argv, char **env
+int	main(int argc, char **argv, char **env)
 {
-	//char	**copy_env;
-	char	*input;
-	int		i;
+	t_minishell	minishell;
+	char		*input;
+	
 
+	if (argc != 1)
+	{
+		printf("argv[0]: %s is the only argument needed to run minishell\n", argv[0]);
+		return (0);		
+	}
+	get_env(&minishell, env);
+	if (!minishell.env)
+		return (ALLOC_ERROR);
 	while (1)
 	{
-		i = 0;
 		input = read_input();
-		printf("%s\n", input);
-		error_check(input);
-		input_expansion(input);
-		/*while (input[i])
+		if (error_check(input) == 1)
 		{
-			printf("%s\n", input[i]);
-			i++;
+			free(input);
+			return (0);
 		}
-		test = tokens(input);
-		i = 0;
-		while (test[i])
-		{
-			printf("tokens[%i] = %s\n", i, test[i]);
-			i++;
-		}
-		free_double(input, 0);*/
+		input = input_expansion(input, minishell.env);
+		free(input);
 	}
 	exit(EXIT_SUCCESS);
 	return (0);

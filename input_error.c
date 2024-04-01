@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 17:22:20 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/02/13 18:43:59 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/03/29 23:11:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	quotes_check(const char *input)
 			while (input[i] && input[i] != q)
 				i++;
 			if (input[i] == '\0')
-				return (1);
+				return (error);
 		}
 		i++;
 	}
@@ -50,16 +50,19 @@ static int	semicolon(char *input)
 	return (0);
 }
 
-void	error_check(char *input)
+int	error_check(char *input)
 {
 	if (quotes_check(input) == 1)
 	{
 		free (input);
 		printf("Error: Unclosed quotes are not interpreted !!\n");
+		return (1);
 	}
 	else if (semicolon(input) == 1)
 	{
 		free (input);
 		printf("Error: Semicolons are not interpreted !!\n");
+		return (1);
 	}
+	return (0);
 }
