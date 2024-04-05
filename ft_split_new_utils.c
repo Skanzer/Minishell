@@ -1,48 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_split_new_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/31 11:29:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/05 15:51:44 by szerzeri         ###   ########.fr       */
+/*   Created: 2024/04/03 13:24:31 by szerzeri          #+#    #+#             */
+/*   Updated: 2024/04/03 13:28:12 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	quotes(char *input, int i)
+void	ft_wordcount_util(char *str, int *i)
 {
-	int	copy;
+	char	quote;
 
-	copy = i;
-	while (input[i])
+	quote = str[*i];
+	if (quote == '\'' || quote == '"')
 	{
-		if (input[i] == '\'')
-			return (i);
-		else
-			i++;
+		*i += 1;
+		while (str[*i] != quote && str[*i] != '\0')
+			*i += 1;
 	}
-	while (input[copy])
-	{
-		if (input[copy] == '"')
-			return (copy);
-		else
-			copy++;
-	}
-	return (-1);
 }
 
-unsigned int	ft_strcpy(char *dest, const char *src)
+void    ft_stralloc_util(char *str, int *k, int *i)
 {
-	unsigned int	i;
+	char	quote;
 
-	i = 0;
-	while (src[i] != '\0')
+	quote = str[*k];
+	if (quote == '\'' || quote == '"')
 	{
-		dest[i] = src[i];
-		i++;
+		*k += 1;
+		*i += 1;
+		while (str[*k] != quote && str[*k] != '\0')
+		{
+			*i += 1;
+			*k += 1;
+		}
 	}
-	return (i);
+	*k += 1;
+	*i += 1;
 }

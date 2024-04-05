@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 15:08:03 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/01 16:17:47 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:36:33 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,23 @@ char	*insert_var(char *input, int i, char *value, char *name)
 	tmp[j] = '\0';
 	free(input);
 	return (tmp);
+}
+
+/**This function gets the value of the variable
+ * @param var the name of the variable
+ * @param env the environment variables
+ * @return the value of the variable
+ */
+char	*get_var_value(char *var, t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strcmp(var, tmp->name) == 0)
+			return (ft_strdup(tmp->value));
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

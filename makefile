@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/04/01 16:11:06 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/04/05 15:18:14 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,9 @@ utils.c\
 expander.c\
 expander_utils.c\
 free_functions.c\
+ft_split_new.c\
+ft_split_new_utils.c\
+tokenizer.c\
 
 LIBNAMES = ./libft/libft.a
 
@@ -34,6 +37,7 @@ OBJS	:=${FILENAMES:.c=.o}
 $(NAME): $(OBJS)
 		make -C $(LIBFT)
 		$(CC) $(CFLAGS) $(CPPFLAGS) $(FILENAMES) $(LIBNAMES) -o $(NAME) -lreadline
+		@clear
 
 all: $(NAME)
 

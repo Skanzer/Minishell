@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:48:40 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/03/31 21:27:57 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/03 19:21:46 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,17 @@ int	get_env(t_minishell *mini, char **env)
 	t_env	*copy;
 	
 	i = 0;
-	mini->env = malloc(sizeof(t_env));
-	if (!mini->env)
-		return (ALLOC_ERROR);
 	copy = mini->env;
 	while (env[i])
 	{
 		if (copy_env(copy, env[i]) == ALLOC_ERROR)
-			return (ALLOC_ERROR);
+			return (free_env(mini), ALLOC_ERROR);
 		i++;
 		if (!env[i])
 			break;
 		copy->next = malloc(sizeof(t_env));
 		if (!copy->next)
-			return (ALLOC_ERROR);
+			return (free_env(mini), ALLOC_ERROR);
 		copy = copy->next;
 	}
 	return (SUCCESS);

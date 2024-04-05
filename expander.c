@@ -6,30 +6,40 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:45:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/01 16:16:27 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:36:34 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**This function gets the value of the variable
- * @param var the name of the variable
- * @param env the environment variables
- * @return the value of the variable
- */
-static char	*get_var_value(char *var, t_env *env)
-{
-	t_env	*tmp;
 
-	tmp = env;
-	while (tmp)
+int	handle_expansion(char *input, int i, t_env *env)
+{
+	char	*var_name;
+	char	*var_value;
+
+	var_name = get_var_name(input, i);
+	if (!var_name)
+		return (ALLOC_ERROR);
+	var_value = get_var_value(var_name, env);
+	if (!var_value)
 	{
-		if (ft_strcmp(var, tmp->name) == 0)
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
+		input = remove_var(input, i, ft_strlen(var_name) + 1);
+		free(var_name);
+		free(var_value);
+		if (!input)
+			return (ALLOC_ERROR);
 	}
-	return (NULL);
+	else
+	{
+		input = insert_var(input, i, var_value, var_name);
+		free(var_name);
+		free(var_value);
+	}
+	return (SUCCESS)
 }
+
+
 /**This function gets the variable name from the input string
  * @param input the input string
  * @param i the index of the dollar sign
@@ -98,7 +108,8 @@ static char	*remove_var(char *input, int i, int len)
  * @param input the input string
  * @param env the environment variables
  */
-char	*input_expansion(char *input, t_env *env)
+
+int	input_expansion(char *input, t_env *env)
 {
 	char	*var_name;
 	char	*var_value;
@@ -115,21 +126,9 @@ char	*input_expansion(char *input, t_env *env)
 			i = i + 1;
 		else if (input[i] == '$')
 		{
-			var_name = get_var_name(input, i);
-			var_value = get_var_value(var_name, env);
-			if (!var_value)
-			{
-				input = remove_var(input, i, ft_strlen(var_name) + 1);
-				free(var_name);
-				free(var_value);
-			}
-			else
-			{
-				input = insert_var(input, i, var_value, var_name);
-				free(var_name);
-				free(var_value);
-			}
+			if (handle_expansion(input, i, env) == ALLOC_ERROR)
+				return (ALLOC_ERROR);
 		}
 	}
-	return (input);
+	return (SUCCESS);
 }

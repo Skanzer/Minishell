@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/01 16:10:55 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:27:13 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@
 # define INPUT_ERROR 1
 # define ALLOC_ERROR 2
 
-typedef struct s_commands
+typedef enum e_token_type
 {
-	char				*command;
-	char				**arguments;
-	int					pipe;
-	struct s_commands	*next;
-}	t_commands;
+	WORD,
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+}	t_token_type;
 
 typedef struct s_env
 {
@@ -70,33 +70,51 @@ typedef struct s_env
 	struct s_env		*next;
 }	t_env;
 
-typedef struct s_minishell
-{
-	t_env	*env;
-	char	*input;
-}	t_minishell;
-
-
 typedef struct s_tokens
 {
 	char				*token;
+	t_token_type		type;
 	struct s_quotes		*next;
 }	t_tokens;
 
+typedef struct s_commands
+{
+	char				*command;
+	t_tokens			*tokens;
+	struct s_commands	*next;
+}	t_commands;
+
+typedef struct s_minishell
+{
+	t_env				*env;
+	char				*input;
+	t_commands			*commands;
+}	t_minishell;
+
 /////////////get_env.c//////////////////////////////////////////////
-int		get_env(t_minishell *mini, char **env);
+int					get_env(t_minishell *mini, char **env);
 /////////////read_input.c//////////////////////////////////////////////
-char	*read_input(void);
-char	**tokens(char **input);
+char				*read_input(void);
 /////////////utils.c//////////////////////////////////////////////
-void	free_double(char **array, int i);
-int		quotes(char *input, int i);
+int					quotes(char *input, int i);
+unsigned int		ft_strcpy(char *dest, const char *src);
 /////////////input_error.c//////////////////////////////////////////////
-int		error_check(char *input);
+int					error_check(char *input);
 ////////////expander.c////////////////////////////////////////////////
-char	*input_expansion(char *input, t_env *env);
-char	*insert_var(char *input, int i, char *value, char *name);
-void 	skip_single_quotes(char *input, int *i);
+char				*input_expansion(char *input, t_env *env);
+char				*insert_var(char *input, int i, char *value, char *name);
+void 				skip_single_quotes(char *input, int *i);
+char				*get_var_value(char *var, t_env *env);
 /////////////free_functions.c//////////////////////////////////////////////
-void	free_env(t_minishell *minishell);
+void				free_env(t_minishell *minishell);
+void				free_double(char **array, int i);
+void    			free_commands(t_minishell *minishell);
+void    			free_shell(t_minishell *minishell);
+/////////////ft_split_new.c//////////////////////////////////////////////
+char				**ft_split_new(char const *str, char c);
+int					ft_wordcount(char *str, char c);
+void				ft_wordcount_util(char *str, int *i);
+void 				ft_stralloc_util(char *str, int *k, int *i);
+/////////////tokenizer.c//////////////////////////////////////////////////
+int					tokenizer(t_minishell *mini);
 #endif
