@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:51:29 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/03/29 21:43:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/08 15:00:54 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static char	*prompt_color(char *name, char *color, char *c)
 	if (!tmp)
 		return (NULL);
 	colored = ft_strjoin(tmp, ANSI_RESET);
+	free(tmp);
 	if (!colored)
 		return (NULL);
-	free(tmp);
 	return (colored);
 }
 /**This function joins the Path and

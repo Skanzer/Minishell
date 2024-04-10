@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/05 16:24:18 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:54:28 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **env)
 	if (init_shell(&minishell, env, argc, argv) == ALLOC_ERROR)
 	{
 		printf("Error: failed to allocate memory for minishell\n");
-		free_env(&minishell);
+		free_shell(&minishell);
 		return (1);
 	}
 	while (1)
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		else
 		{
-			if (input_expansion(minishell.input, minishell.env) == ALLOC_ERROR)
+			if (input_expansion(&minishell) == ALLOC_ERROR)
 			{
 				printf("Error: failed to expand input\n");
 				free_shell(&minishell);

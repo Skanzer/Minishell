@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/05 16:27:13 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:56:44 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,11 @@ char				*read_input(void);
 /////////////utils.c//////////////////////////////////////////////
 int					quotes(char *input, int i);
 unsigned int		ft_strcpy(char *dest, const char *src);
+int					c_check(char c);
 /////////////input_error.c//////////////////////////////////////////////
 int					error_check(char *input);
 ////////////expander.c////////////////////////////////////////////////
-char				*input_expansion(char *input, t_env *env);
+int					input_expansion(t_minishell *mini);
 char				*insert_var(char *input, int i, char *value, char *name);
 void 				skip_single_quotes(char *input, int *i);
 char				*get_var_value(char *var, t_env *env);

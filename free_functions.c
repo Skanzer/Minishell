@@ -54,6 +54,9 @@ void	free_double(char **array, int i)
 
 void    free_shell(t_minishell *minishell)
 {
+    if (minishell->input)
+        free(minishell->input);
     free_env(minishell);
     free_commands(minishell);
+
 }

@@ -6,39 +6,11 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:45:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/05 16:36:34 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:01:25 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-int	handle_expansion(char *input, int i, t_env *env)
-{
-	char	*var_name;
-	char	*var_value;
-
-	var_name = get_var_name(input, i);
-	if (!var_name)
-		return (ALLOC_ERROR);
-	var_value = get_var_value(var_name, env);
-	if (!var_value)
-	{
-		input = remove_var(input, i, ft_strlen(var_name) + 1);
-		free(var_name);
-		free(var_value);
-		if (!input)
-			return (ALLOC_ERROR);
-	}
-	else
-	{
-		input = insert_var(input, i, var_value, var_name);
-		free(var_name);
-		free(var_value);
-	}
-	return (SUCCESS)
-}
-
 
 /**This function gets the variable name from the input string
  * @param input the input string
@@ -54,7 +26,7 @@ static char *get_var_name(char *input, int i)
 	i++;
 	while (input[i])
 	{
-		if (input[i] == ' ' || input[i] == '$' || input[i] == '\0' || input[i] == '\'' || input[i] == '\"')
+		if (c_check(input[i]) == 1)
 			break ;
 		var_len++;
 		i++;
@@ -66,13 +38,14 @@ static char *get_var_name(char *input, int i)
 	var_len = 0;
 	while (input[i])
 	{
-		if (input[i] == ' ' || input[i] == '$' || input[i] == '\0'|| input[i] == '\'' || input[i] == '\"')
+		if (c_check(input[i]) == 1)
 			break ;
 		var_name[var_len++] = input[i++];
 	}
 	var_name[var_len] = '\0';
 	return (var_name);
 }
+
 /**This function deletes the var_name and the dollar sign
  * and resize the string
  * @param input the input string
@@ -103,31 +76,60 @@ static char	*remove_var(char *input, int i, int len)
 	return (tmp);
 }
 
+char	*handle_expansion(char *input, int i, t_env *env)
+{
+	char	*var_name;
+	char	*var_value;
+	char	*tmp;
+
+	var_name = get_var_name(input, i);
+	if (!var_name)
+		return (NULL);
+	var_value = get_var_value(var_name, env);
+	if (!var_value)
+	{
+		tmp = remove_var(input, i, ft_strlen(var_name) + 1);
+		free(var_name);
+		free(var_value);
+		if (!tmp)
+			return (NULL);
+	}
+	else
+	{
+		tmp = insert_var(input, i, var_value, var_name);
+		free(var_name);
+		free(var_value);
+		if (!tmp)
+			return (NULL);
+	}
+	return (tmp);
+}
+
 /**This function takes the input and expands the variables in it
  * by replacing the variable name with its value.
  * @param input the input string
  * @param env the environment variables
  */
 
-int	input_expansion(char *input, t_env *env)
+int	input_expansion(t_minishell *mini)
 {
-	char	*var_name;
-	char	*var_value;
 	int		i;
 
 	i = 0;
-	while (input[i])
+	while (mini->input[i])
 	{
-		if (input[i] == '\'')
-			skip_single_quotes(input, &i);
-		else if (input[i] != '$')
+		if (mini->input[i] == '\'')
+			skip_single_quotes(mini->input, &i);
+		else if (mini->input[i] != '$')
 			i++;
-		else if (input[i] == '$' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+		else if (mini->input[i] == '$' && c_check(mini->input[i + 1]) == 1)
 			i = i + 1;
-		else if (input[i] == '$')
+		else if (mini->input[i] == '$')
 		{
-			if (handle_expansion(input, i, env) == ALLOC_ERROR)
+			mini->input = handle_expansion(mini->input, i, mini->env);
+			if (!mini->input)
 				return (ALLOC_ERROR);
+			printf("input: %s\n", mini->input);
 		}
 	}
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/05 16:08:15 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:10:59 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	tokenizer(t_minishell *mini)
 {
     char    	**split;
 
+	split = NULL;
     if (pipe_spliter(split, mini->input) == ALLOC_ERROR)
 		return (ALLOC_ERROR);
 	if (put_commands(mini, split) == ALLOC_ERROR)

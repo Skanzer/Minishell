@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:29:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/05 15:51:44 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:00:43 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,23 @@ unsigned int	ft_strcpy(char *dest, const char *src)
 		i++;
 	}
 	return (i);
+}
+
+int	c_check(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n')
+		return (1);
+	else if (c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	else if (c == ',' || c == '.' || c == '=')
+		return (1);
+	else if (c == '%' || c == '^' || c == '+')
+		return (1);
+	else if (c == '-' || c == ':' || c == '~')
+		return (1);
+	else if (c == '>' || c == '<' || c == '/')
+		return (1);
+	else if (c == ']' || c == '}' || c == '\0')
+		return (1);
+	return (0);
 }
