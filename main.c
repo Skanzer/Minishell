@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/10 13:54:28 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:40:15 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 int	init_memory(t_minishell *minishell)
 {
-	minishell->env = malloc(sizeof(t_env));
+	minishell->env = ft_calloc(1, sizeof(t_env));
 	if (!minishell->env)
 		return (ALLOC_ERROR);
 	minishell->input = NULL;
-	minishell->commands = malloc(sizeof(t_commands));
-	if (!minishell->commands)
-		return (ALLOC_ERROR);
-	minishell->commands->next = NULL;
-	minishell->commands->command = NULL;
 	return (0);
 }
 

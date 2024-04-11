@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:45:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/10 15:01:25 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:24:05 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char *get_var_name(char *input, int i)
 	i++;
 	while (input[i])
 	{
-		if (c_check(input[i]) == 1)
+		if (end_var_name(input[i]) == 1)
 			break ;
 		var_len++;
 		i++;
@@ -38,7 +38,7 @@ static char *get_var_name(char *input, int i)
 	var_len = 0;
 	while (input[i])
 	{
-		if (c_check(input[i]) == 1)
+		if (end_var_name(input[i]) == 1)
 			break ;
 		var_name[var_len++] = input[i++];
 	}
@@ -122,7 +122,7 @@ int	input_expansion(t_minishell *mini)
 			skip_single_quotes(mini->input, &i);
 		else if (mini->input[i] != '$')
 			i++;
-		else if (mini->input[i] == '$' && c_check(mini->input[i + 1]) == 1)
+		else if (mini->input[i] == '$' && end_var_name(mini->input[i + 1]) == 1)
 			i = i + 1;
 		else if (mini->input[i] == '$')
 		{

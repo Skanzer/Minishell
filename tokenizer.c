@@ -6,21 +6,20 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/10 13:10:59 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:25:43 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	pipe_spliter(char **split, char *input)
+static char	**pipe_spliter(char *input)
 {
+	char	**split;
+
 	split = ft_split_new(input, '|');
     if (!split)
-	{
-		free_double(split, ft_wordcount(input, '\'') - 1);
-		return (ALLOC_ERROR);	
-	}
-	return (SUCCESS);
+		return (NULL);
+	return (split);
 }
 
 static int	put_commands(t_minishell *mini, char **split)
@@ -29,11 +28,13 @@ static int	put_commands(t_minishell *mini, char **split)
 	int			i;
 
 	i = 0;
+	mini->commands = ft_calloc(1, sizeof(t_commands));
+	if (!mini->commands)
+		return (ALLOC_ERROR);
 	tmp = mini->commands;
 	while (split[i])
 	{
-		printf("lenna\n");
-		tmp->command = malloc(sizeof(char) * (ft_strlen(split[i]) + 1));
+		tmp->command = ft_calloc((ft_strlen(split[i]) + 1), sizeof(char));
 		if (!tmp->command)
 			return (ALLOC_ERROR);
 		ft_strcpy(tmp->command, split[i]);
@@ -43,7 +44,7 @@ static int	put_commands(t_minishell *mini, char **split)
 			tmp->next = NULL;
 			break ;	
 		}
-		tmp->next = malloc(sizeof(t_commands));
+		tmp->next = ft_calloc(1, sizeof(t_commands));
 		if (!tmp->next)
 			return (ALLOC_ERROR);
 		tmp = tmp->next;
@@ -55,10 +56,11 @@ int	tokenizer(t_minishell *mini)
 {
     char    	**split;
 
-	split = NULL;
-    if (pipe_spliter(split, mini->input) == ALLOC_ERROR)
+	split = pipe_spliter(mini->input);
+    if (split == NULL)
 		return (ALLOC_ERROR);
 	if (put_commands(mini, split) == ALLOC_ERROR)
 		return (ALLOC_ERROR);
+	
     return (SUCCESS);
 }
