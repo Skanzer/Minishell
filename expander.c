@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:45:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/11 12:24:05 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:10:19 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ int	input_expansion(t_minishell *mini)
 			mini->input = handle_expansion(mini->input, i, mini->env);
 			if (!mini->input)
 				return (ALLOC_ERROR);
-			printf("input: %s\n", mini->input);
 		}
 	}
 	return (SUCCESS);

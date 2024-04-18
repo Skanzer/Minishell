@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/11 12:23:11 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:56:21 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef enum e_token_type
 	REDIR_IN,
 	REDIR_OUT,
 	REDIR_APPEND,
+	HEREDOC,
 }	t_token_type;
 
 typedef struct s_env
@@ -91,6 +92,14 @@ typedef struct s_minishell
 	t_commands			*commands;
 }	t_minishell;
 
+typedef struct s_string
+{
+	char				c;
+	struct s_string		*next;
+	struct s_string		*previous;
+}	t_string;
+
+
 /////////////get_env.c//////////////////////////////////////////////
 int					get_env(t_minishell *mini, char **env);
 /////////////read_input.c//////////////////////////////////////////////
@@ -99,6 +108,7 @@ char				*read_input(void);
 int					quotes(char *input, int i);
 unsigned int		ft_strcpy(char *dest, const char *src);
 int					end_var_name(char c);
+int					space_char(char c);
 /////////////input_error.c//////////////////////////////////////////////
 int					error_check(char *input);
 ////////////expander.c////////////////////////////////////////////////

@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:29:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/11 13:03:03 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:31:38 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,11 @@ int	end_var_name(char c)
 	return (0);
 }
 
-int	
+int	space_char(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n')
+		return (1);
+	else if (c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
