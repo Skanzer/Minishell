@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:44:09 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/05 15:55:03 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:26:50 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,7 @@ static char	*ft_stralloc(char *str, char c, int *k)
 		if (str[*k] != c)
 		{
 			while (str[*k] != '\0' && str[*k] != c)
-			{
 				ft_stralloc_util(str, k, &i);
-			}
 			word = (char *)malloc(sizeof(char) * (i + 1));
 			if (word == NULL)
 				return (free(word), NULL);
