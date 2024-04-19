@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/15 12:56:21 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:01:48 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,10 @@ void 				skip_single_quotes(char *input, int *i);
 char				*get_var_value(char *var, t_env *env);
 /////////////free_functions.c//////////////////////////////////////////////
 void				free_env(t_minishell *minishell);
-void				free_double(char **array, int i);
+void				free_double(char **array);
 void    			free_commands(t_minishell *minishell);
 void    			free_shell(t_minishell *minishell);
+void    			free_string(t_string *string);
 /////////////ft_split_new.c//////////////////////////////////////////////
 char				**ft_split_new(char const *str, char c);
 int					ft_wordcount(char *str, char c);
@@ -128,4 +129,6 @@ void				ft_wordcount_util(char *str, int *i);
 void 				ft_stralloc_util(char *str, int *k, int *i);
 /////////////tokenizer.c//////////////////////////////////////////////////
 int					tokenizer(t_minishell *mini);
+int					organize_commands(t_commands *commands);
+int 				replace_command(t_commands  *commands, t_string *string);
 #endif
