@@ -40,14 +40,17 @@ void    free_commands(t_minishell *minishell)
     }
 }
 
-void	free_double(char **array, int i)
+void	free_double(char **array)
 {
+    int i;
+
+    i = 0;
 	if (!array)
 		return;
-	while (i >= 0)
+	while (array[i])
 	{
 		free(array[i]);
-		i--;
+		i++;
 	}
 	free(array);
 }
@@ -59,4 +62,16 @@ void    free_shell(t_minishell *minishell)
     free_env(minishell);
     free_commands(minishell);
 
+}
+
+void    free_string(t_string *string)
+{
+    t_string    *tmp;
+
+    while (string)
+    {
+        tmp = string;
+        string = string->next;
+        free(tmp);
+    }
 }
