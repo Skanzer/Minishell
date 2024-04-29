@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 17:22:20 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/05 16:11:10 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:08:24 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,13 @@ int	error_check(char *input)
 	else if (pipe_begin(input) == 1)
 	{
 		free (input);
+		printf("Minishell: syntax error near unexpected token\n");
+		return (1);
+	}
+	else if (redirection_error(input) == 1)
+	{
+		free (input);
+		printf("Minishell: syntax error near unexpected token\n");
 		return (1);
 	}
 	return (0);
