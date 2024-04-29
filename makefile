@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/04/15 11:35:44 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/04/29 14:06:59 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,18 @@ FILENAMES = main.c\
 get_env.c\
 read_input.c\
 input_error.c\
+input_error1.c\
 utils.c\
 expander.c\
 expander_utils.c\
 free_functions.c\
+free_functions1.c\
 ft_split_new.c\
 ft_split_new_utils.c\
 tokenizer.c\
+tokenizer_utils.c\
+tokenizer_utils1.c\
+tokenizer_utils2.c\
 
 LIBNAMES = ./libft/libft.a
 
