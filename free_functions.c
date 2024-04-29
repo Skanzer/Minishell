@@ -26,16 +26,17 @@ void    free_env(t_minishell *minishell)
     }
 }
 
-void    free_commands(t_minishell *minishell)
+void    free_commands(t_commands *commands)
 {
     t_commands  *tmp;
 
-    while (minishell->commands)
+    while (commands)
     {
-        tmp = minishell->commands;
-        minishell->commands = minishell->commands->next;
+        tmp = commands;
+        commands = commands->next;
         free(tmp->command);
-        free(tmp->tokens);
+        if (tmp->tokens)
+            free_tokens(tmp->tokens);
         free(tmp);
     }
 }
@@ -60,8 +61,7 @@ void    free_shell(t_minishell *minishell)
     if (minishell->input)
         free(minishell->input);
     free_env(minishell);
-    free_commands(minishell);
-
+    free_commands(minishell->commands);
 }
 
 void    free_string(t_string *string)
