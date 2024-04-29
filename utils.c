@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:29:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/15 14:31:38 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:58:11 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ unsigned int	ft_strcpy(char *dest, const char *src)
 		dest[i] = src[i];
 		i++;
 	}
+	dest[i] = '\0';
 	return (i);
 }
 
