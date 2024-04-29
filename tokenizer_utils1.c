@@ -6,12 +6,15 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:51:41 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/19 14:33:17 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:25:59 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief This function returns the length of a string struct
+ */
 static int ft_lenstr(t_string *string)
 {
     int len;
@@ -26,7 +29,9 @@ static int ft_lenstr(t_string *string)
     }
     return (len);
 }
-
+/**
+ * @brief This function replaces the command with the new command
+ */
 int replace_command(t_commands  *commands, t_string *string)
 {
     char        *new_command;

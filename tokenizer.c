@@ -6,22 +6,30 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/19 14:56:08 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:21:33 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/**@brief This function splits the input according to pipes
+ * and returns a double array
+ * @param input the input command
+ */
 static char	**pipe_spliter(char *input)
 {
 	char	**split;
+	char	*c = "|";
 
-	split = ft_split_new(input, '|');
+	split = ft_split_new(input, c);
     if (!split)
 		return (NULL);
 	return (split);
 }
-
+/**@brief This function creates the commands struct
+ * and puts the splited input into the commands struct
+ * @param mini the minishell structure
+ * @param split the splited input
+ */
 static int	put_commands(t_minishell *mini, char **split)
 {
 	t_commands	*tmp;
@@ -39,11 +47,9 @@ static int	put_commands(t_minishell *mini, char **split)
 			return (ALLOC_ERROR);
 		ft_strcpy(tmp->command, split[i]);
 		i++;
+		tmp->next = NULL;
 		if (!split[i])
-		{
-			tmp->next = NULL;
-			break ;	
-		}
+			break ;
 		tmp->next = ft_calloc(1, sizeof(t_commands));
 		if (!tmp->next)
 			return (ALLOC_ERROR);
@@ -51,12 +57,14 @@ static int	put_commands(t_minishell *mini, char **split)
 	}
 	return (SUCCESS);
 }
-
+/**@brief this function creates the tokens of the input command 
+ * it splits the input into commands according to pipes
+ * then it splits the commands into tokens and assigns the type of the token
+ * @param mini the minishell structure
+*/
 int	tokenizer(t_minishell *mini)
 {
     char    	**split;
-	int			i = 0;
-	t_commands	*tmp;
 
 	split = pipe_spliter(mini->input);
     if (split == NULL)
@@ -67,8 +75,15 @@ int	tokenizer(t_minishell *mini)
 		return (ALLOC_ERROR);
 	}
 	free_double(split);
-	
-	
-	
+	if (organize_commands(mini->commands) == ALLOC_ERROR)
+	{
+		free_commands(mini->commands);
+		return (ALLOC_ERROR);
+	}
+	if (create_tokens(mini->commands) == ALLOC_ERROR)
+	{
+		free_commands(mini->commands);
+		return (ALLOC_ERROR);
+	}
     return (SUCCESS);
 }

@@ -6,50 +6,57 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:17:48 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/19 15:01:20 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/22 21:27:13 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief this function adds a space before the redirections
+ */
 static int	add_space_before(t_string *head)
 {
-	t_string	*tmp1;
+	t_string	*tmp;
 
 	if (head->previous && space_char(head->previous->c) != 1)
 	{
-		tmp1 = ft_calloc(1, sizeof(t_string));
-		if (!tmp1)
+		tmp = ft_calloc(1, sizeof(t_string));
+		if (!tmp)
 			return (ALLOC_ERROR);
-		tmp1->c = ' ';
-		tmp1->previous = head->previous;
-		tmp1->next = head;
-		head->previous->next = tmp1;
-		head->previous = tmp1;
+		tmp->c = ' ';
+		tmp->previous = head->previous;
+		tmp->next = head;
+		head->previous->next = tmp;
+		head->previous = tmp;
 	}
 	return (SUCCESS);
 }
-
+/**
+ * @brief This function adds a space after the redirections
+ */
 static int	add_space_after(t_string *head)
 {
-	t_string	*tmp1;
+	t_string	*tmp;
 
 	if (head->next && space_char(head->next->c) != 1)
 	{
-		tmp1 = ft_calloc(1, sizeof(t_string));
+		tmp = ft_calloc(1, sizeof(t_string));
 		if (!tmp)
 			return (ALLOC_ERROR);
-		tmp1->c = ' ';
-		tmp1->previous = head;
-		tmp1->next = head->next;
-		head->next->previous = tmp1;
-		head->next = tmp1;
+		tmp->c = ' ';
+		tmp->previous = head;
+		tmp->next = head->next;
+		head->next->previous = tmp;
+		head->next = tmp;
 	}
+	return (SUCCESS);
 }
-
+/**
+ * @brief This function adds a space before and after the redirections 
+ */
 static int	space_adder(t_string *string)
 {
-	t_string	*tmp1;
 	t_string	*head;
 
 	head = string;
@@ -66,8 +73,11 @@ static int	space_adder(t_string *string)
 		}
 		head = head->next;
 	}
+	return (SUCCESS);
 }
-
+/**
+ * @brief This function puts the command in a linked list
+ */
 static t_string	*put_in_list(char *command)
 {
 	t_string	*head;
@@ -97,7 +107,11 @@ static t_string	*put_in_list(char *command)
 	}
 	return (head);
 }
-
+/** 
+ * @brief This function replaces the command in the t_commands struct with the new command
+ * it takes the command, put in a linked list, add spaces before and after the redirections
+ * and then replaces the command in the t_commands struct with the new command
+ */
 int organize_commands(t_commands *commands)
 {
     t_string	*string;
