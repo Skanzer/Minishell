@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/19 15:01:48 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:22:33 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_tokens
 {
 	char				*token;
 	t_token_type		type;
-	struct s_quotes		*next;
+	struct s_tokens		*next;
 }	t_tokens;
 
 typedef struct s_commands
@@ -111,6 +111,7 @@ int					end_var_name(char c);
 int					space_char(char c);
 /////////////input_error.c//////////////////////////////////////////////
 int					error_check(char *input);
+int 				redirection_error(char *input);
 ////////////expander.c////////////////////////////////////////////////
 int					input_expansion(t_minishell *mini);
 char				*insert_var(char *input, int i, char *value, char *name);
@@ -119,16 +120,19 @@ char				*get_var_value(char *var, t_env *env);
 /////////////free_functions.c//////////////////////////////////////////////
 void				free_env(t_minishell *minishell);
 void				free_double(char **array);
-void    			free_commands(t_minishell *minishell);
+void    			free_commands(t_commands *commands);
 void    			free_shell(t_minishell *minishell);
 void    			free_string(t_string *string);
+void    			free_tokens(t_tokens *tokens);
 /////////////ft_split_new.c//////////////////////////////////////////////
-char				**ft_split_new(char const *str, char c);
-int					ft_wordcount(char *str, char c);
+char				**ft_split_new(char const *str, char *c);
+int					ft_wordcount(char *str, char *c);
 void				ft_wordcount_util(char *str, int *i);
 void 				ft_stralloc_util(char *str, int *k, int *i);
+int					check_c(char c, char *characters);
 /////////////tokenizer.c//////////////////////////////////////////////////
 int					tokenizer(t_minishell *mini);
 int					organize_commands(t_commands *commands);
 int 				replace_command(t_commands  *commands, t_string *string);
+int					create_tokens(t_commands *commands);
 #endif
