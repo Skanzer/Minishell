@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:24:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/03 13:28:12 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:16:10 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,18 @@ void    ft_stralloc_util(char *str, int *k, int *i)
 	}
 	*k += 1;
 	*i += 1;
+}
+
+int	check_c(char c, char *characters)
+{
+	int	i;
+
+	i = 0;
+	while (characters[i])
+	{
+		if (c == characters[i])
+			return (1);
+		i++;
+	}
+	return (0);
 }

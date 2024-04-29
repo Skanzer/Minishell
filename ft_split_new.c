@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:44:09 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/19 10:26:50 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:04:18 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	ft_freeup(char *strs)
 	free(strs);
 }
 
-int	ft_wordcount(char *str, char c)
+int	ft_wordcount(char *str, char *c)
 {
 	int		i;
 	int		word;
@@ -34,10 +34,10 @@ int	ft_wordcount(char *str, char c)
 	word = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != c)
+		if (check_c(str[i], c) == 0)
 		{
 			word++;
-			while (str[i] != c && str[i] != '\0')
+			while (check_c(str[i], c) == 0 && str[i] != '\0')
 			{
 				ft_wordcount_util(str, &i);
 				i++;
@@ -50,14 +50,14 @@ int	ft_wordcount(char *str, char c)
 	return (word);
 }
 
-static void	ft_splitcpy(char *word, char *str, char c, int j)
+static void	ft_splitcpy(char *word, char *str, char *c, int j)
 {
 	int		i;
 	char	quote;
 	i = 0;
-	while (str[j] != '\0' && str[j] == c)
+	while (str[j] != '\0' && check_c(str[j], c) == 1)
 		j++;
-	while (str[j + i] != c && str[j + i] != '\0')
+	while (check_c(str[j + i], c) == 0 && str[j + i] != '\0')
 	{
 		quote = str[j + i];
 		if (quote == '\'' || quote == '"')
@@ -76,7 +76,7 @@ static void	ft_splitcpy(char *word, char *str, char c, int j)
 	word[i] = '\0';
 }
 
-static char	*ft_stralloc(char *str, char c, int *k)
+static char	*ft_stralloc(char *str, char *c, int *k)
 {
 	char	*word;
 	int		j;
@@ -87,9 +87,9 @@ static char	*ft_stralloc(char *str, char c, int *k)
 	word = NULL;
 	while (str[*k] != '\0')
 	{
-		if (str[*k] != c)
+		if (check_c(str[*k], c) == 0)
 		{
-			while (str[*k] != '\0' && str[*k] != c)
+			while (str[*k] != '\0' && check_c(str[*k], c) == 0)
 				ft_stralloc_util(str, k, &i);
 			word = (char *)malloc(sizeof(char) * (i + 1));
 			if (word == NULL)
@@ -102,7 +102,7 @@ static char	*ft_stralloc(char *str, char c, int *k)
 	return (word);
 }
 
-char	**ft_split_new(char const *str, char c)
+char	**ft_split_new(char const *str, char *c)
 {
 	char	**strs;
 	int		i;
