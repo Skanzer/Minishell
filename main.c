@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/15 12:10:28 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:35:38 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,8 @@ int	main(int argc, char **argv, char **env)
 				free_shell(&minishell);
 				return (1);
 			}
-			while (minishell.commands)
-			{
-				printf("command: %s\n", minishell.commands->command);
-				minishell.commands = minishell.commands->next;
-			}
+			free_commands(minishell.commands);
 			free(minishell.input);
-			free_commands(&minishell);
 		}
 	}
 	return (0);
