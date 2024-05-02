@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/29 14:22:33 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:20:14 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,16 @@ typedef struct s_commands
 {
 	char				*command;
 	t_tokens			*tokens;
+	char				*cmd_name;
+	char				*cmd_path;
+	char				**cmd_args;
+	char				*infile;
+	int					infile_fd;
+	char				*outfile;
+	int					outfile_fd;
+	char				*append;
+	char				*heredoc;
+	int					quoted_heredoc;
 	struct s_commands	*next;
 }	t_commands;
 
@@ -135,4 +145,9 @@ int					tokenizer(t_minishell *mini);
 int					organize_commands(t_commands *commands);
 int 				replace_command(t_commands  *commands, t_string *string);
 int					create_tokens(t_commands *commands);
+/////////////quotes_deleter.c//////////////////////////////////////////////
+int					quotes_deleter_all(t_commands *commands);
+int					quotes_deleter(t_tokens *tokens);
+char				*copy_without_quotes(char *token, char *new_token);
+
 #endif
