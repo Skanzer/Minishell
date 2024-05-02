@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:22:36 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/29 14:40:43 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:46:46 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,33 @@ int	redirection_error(char *input)
     }
     free_double(split);
     return (SUCCESS);
+}
+/**@brief This function checks if there is a syntax
+ * error after redirection, after tokenizing the input
+ * @param commands the commands struct
+ */
+int	after_redir_check(t_commands *commands)
+{
+	t_commands	*tmp_c;
+	t_tokens	*tmp_t;
+
+	tmp_c = commands;
+	while (tmp_c)
+	{
+		tmp_t = tmp_c->tokens;
+		while (tmp_t)
+		{
+			if (tmp_t->type == REDIR_OUT || tmp_t->type == REDIR_IN \
+				|| tmp_t->type == REDIR_APPEND || tmp_t->type == HEREDOC)
+			{
+				if (!tmp_t->next)
+					return (1);
+				if (tmp_t->next->type != WORD)
+					return (1);
+			}
+			tmp_t = tmp_t->next;
+		}
+		tmp_c = tmp_c->next;
+	}
+	return (0);
 }
