@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:10:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/29 15:27:08 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:19:25 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	create_tokens(t_commands *commands)
 		if (!split)
 			return (ALLOC_ERROR);
 		if (put_tokens(tmp, split) == ALLOC_ERROR)
+			return (ALLOC_ERROR);
+		if (quotes_deleter_all(tmp) == ALLOC_ERROR)
 			return (ALLOC_ERROR);
 		tmp = tmp->next;
 		free_double(split);

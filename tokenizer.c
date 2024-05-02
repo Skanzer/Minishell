@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/29 15:21:33 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:23:29 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,31 @@ static char	**pipe_spliter(char *input)
 		return (NULL);
 	return (split);
 }
+/**@brief This function creates and initializes the commands struct
+ * and returns the commands struct
+ */	
+static t_commands	*init_commands(void)
+{
+	t_commands	*commands;
+
+	commands = ft_calloc(1, sizeof(t_commands));
+	if (!mini->commands)
+		return (NULL);
+	commands->command = NULL;
+	commands->tokens = NULL;
+	commands->cmd_name = NULL;
+	commands->cmd_path = NULL;
+	commands->cmd_args = NULL;
+	commands->infile = NULL;
+	commands->outfile = NULL;
+	commands->append = NULL;
+	commands->heredoc = NULL;
+	commands->next = NULL;
+	commands->infile_fd = -1;
+	commands->outfile_fd = -1;
+	commands->quoted_heredoc = 0;
+	return (commands);
+}
 /**@brief This function creates the commands struct
  * and puts the splited input into the commands struct
  * @param mini the minishell structure
@@ -36,7 +61,7 @@ static int	put_commands(t_minishell *mini, char **split)
 	int			i;
 
 	i = 0;
-	mini->commands = ft_calloc(1, sizeof(t_commands));
+	mini->commands = init_commands();
 	if (!mini->commands)
 		return (ALLOC_ERROR);
 	tmp = mini->commands;
@@ -47,10 +72,9 @@ static int	put_commands(t_minishell *mini, char **split)
 			return (ALLOC_ERROR);
 		ft_strcpy(tmp->command, split[i]);
 		i++;
-		tmp->next = NULL;
 		if (!split[i])
 			break ;
-		tmp->next = ft_calloc(1, sizeof(t_commands));
+		tmp->next = init_commands();
 		if (!tmp->next)
 			return (ALLOC_ERROR);
 		tmp = tmp->next;
