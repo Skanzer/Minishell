@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/02 15:20:14 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:10:06 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_tokens
 
 typedef struct s_commands
 {
+	t_env				*env;
 	char				*command;
 	t_tokens			*tokens;
 	char				*cmd_name;
@@ -122,8 +123,9 @@ int					space_char(char c);
 /////////////input_error.c//////////////////////////////////////////////
 int					error_check(char *input);
 int 				redirection_error(char *input);
+int					after_redir_check(t_commands *commands);
 ////////////expander.c////////////////////////////////////////////////
-int					input_expansion(t_minishell *mini);
+int					input_expansion(char *input, t_env *env);
 char				*insert_var(char *input, int i, char *value, char *name);
 void 				skip_single_quotes(char *input, int *i);
 char				*get_var_value(char *var, t_env *env);
@@ -149,5 +151,6 @@ int					create_tokens(t_commands *commands);
 int					quotes_deleter_all(t_commands *commands);
 int					quotes_deleter(t_tokens *tokens);
 char				*copy_without_quotes(char *token, char *new_token);
-
+//////////////heredoc.c//////////////////////////////////////////////////
+int					heredoc(t_commands *commands);
 #endif
