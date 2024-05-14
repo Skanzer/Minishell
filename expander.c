@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:45:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/15 12:10:19 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:13:34 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,23 +111,23 @@ char	*handle_expansion(char *input, int i, t_env *env)
  * @param env the environment variables
  */
 
-int	input_expansion(t_minishell *mini)
+int	input_expansion(char *input, t_env *env)
 {
 	int		i;
 
 	i = 0;
-	while (mini->input[i])
+	while (input[i])
 	{
-		if (mini->input[i] == '\'')
-			skip_single_quotes(mini->input, &i);
-		else if (mini->input[i] != '$')
+		if (input[i] == '\'')
+			skip_single_quotes(input, &i);
+		else if (input[i] != '$')
 			i++;
-		else if (mini->input[i] == '$' && end_var_name(mini->input[i + 1]) == 1)
+		else if (input[i] == '$' && end_var_name(input[i + 1]) == 1)
 			i = i + 1;
-		else if (mini->input[i] == '$')
+		else if (input[i] == '$')
 		{
-			mini->input = handle_expansion(mini->input, i, mini->env);
-			if (!mini->input)
+			input = handle_expansion(input, i, env);
+			if (!input)
 				return (ALLOC_ERROR);
 		}
 	}
