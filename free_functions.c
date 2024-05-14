@@ -26,17 +26,15 @@ void    free_env(t_minishell *minishell)
     }
 }
 
-void    free_commands(t_commands *commands)
+void    free_tokens(t_tokens *tokens)
 {
-    t_commands  *tmp;
+    t_tokens    *tmp;
 
-    while (commands)
+    while (tokens)
     {
-        tmp = commands;
-        commands = commands->next;
-        free(tmp->command);
-        if (tmp->tokens)
-            free_tokens(tmp->tokens);
+        tmp = tokens;
+        tokens = tokens->next;
+        free(tmp->token);
         free(tmp);
     }
 }

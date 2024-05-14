@@ -6,21 +6,37 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 17:04:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/29 14:05:57 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:07:36 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    free_tokens(t_tokens *tokens)
+void	free_commands(t_commands *commands)
 {
-    t_tokens    *tmp;
+	t_commands	*tmp;
 
-    while (tokens)
-    {
-        tmp = tokens;
-        tokens = tokens->next;
-        free(tmp->token);
-        free(tmp);
+	while (commands)
+	{
+		tmp = commands;
+		commands = commands->next;
+		free(tmp->command);
+		if (tmp->tokens)
+			free_tokens(tmp->tokens);
+		if (tmp->cmd_name)
+			free(tmp->cmd_name);
+		if (tmp->cmd_path)
+			free(tmp->cmd_path);
+		if (tmp->cmd_args)
+			free_double(tmp->cmd_args);
+		if (tmp->infile)
+			free(tmp->infile);
+		if (tmp->outfile)
+			free(tmp->outfile);
+		if (tmp->append)
+			free(tmp->append);
+		if (tmp->heredoc)
+			free(tmp->heredoc);
+		free(tmp);
     }
 }
