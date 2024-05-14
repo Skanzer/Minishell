@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/04/29 17:20:31 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/05/13 15:56:13 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ tokenizer_utils.c\
 tokenizer_utils1.c\
 tokenizer_utils2.c\
 quotes_deleter.c\
+heredoc.c\
 
 LIBNAMES = ./libft/libft.a
 
