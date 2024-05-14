@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/02 15:23:29 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:59:16 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ static char	**pipe_spliter(char *input)
 /**@brief This function creates and initializes the commands struct
  * and returns the commands struct
  */	
-static t_commands	*init_commands(void)
+static t_commands	*init_commands(t_minishell *mini)
 {
 	t_commands	*commands;
 
 	commands = ft_calloc(1, sizeof(t_commands));
-	if (!mini->commands)
+	if (!commands)
 		return (NULL);
+	commands->env = mini->env;
 	commands->command = NULL;
 	commands->tokens = NULL;
 	commands->cmd_name = NULL;
@@ -61,7 +62,7 @@ static int	put_commands(t_minishell *mini, char **split)
 	int			i;
 
 	i = 0;
-	mini->commands = init_commands();
+	mini->commands = init_commands(mini);
 	if (!mini->commands)
 		return (ALLOC_ERROR);
 	tmp = mini->commands;
@@ -74,7 +75,7 @@ static int	put_commands(t_minishell *mini, char **split)
 		i++;
 		if (!split[i])
 			break ;
-		tmp->next = init_commands();
+		tmp->next = init_commands(mini);
 		if (!tmp->next)
 			return (ALLOC_ERROR);
 		tmp = tmp->next;
@@ -108,6 +109,11 @@ int	tokenizer(t_minishell *mini)
 	{
 		free_commands(mini->commands);
 		return (ALLOC_ERROR);
+	}
+	if (after_redir_check(mini->commands) == 1)
+	{
+		free_commands(mini->commands);
+		return (1);
 	}
     return (SUCCESS);
 }
