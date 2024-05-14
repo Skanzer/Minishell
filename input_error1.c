@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:22:36 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/02 16:46:46 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/03 16:53:39 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	redirection_error(char *input)
     return (SUCCESS);
 }
 /**@brief This function checks if there is a syntax
- * error after redirection, after tokenizing the input
+ * error (redirection), after tokenizing the input
  * @param commands the commands struct
  */
 int	after_redir_check(t_commands *commands)
