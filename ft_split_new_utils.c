@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:24:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/23 13:16:10 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:14:34 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_wordcount_util(char *str, int *i)
 	}
 }
 
-void    ft_stralloc_util(char *str, int *k, int *i)
+void	ft_stralloc_util(char *str, int *k, int *i)
 {
 	char	quote;
 

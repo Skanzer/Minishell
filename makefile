@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/05/13 15:56:13 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/05/16 16:41:44 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ read_input.c\
 input_error.c\
 input_error1.c\
 utils.c\
+utils_1.c\
 expander.c\
 expander_utils.c\
 free_functions.c\

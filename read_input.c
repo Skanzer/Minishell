@@ -6,11 +6,12 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:51:29 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/08 15:00:54 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 11:08:56 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 /**This function colors the different parts
  * of the prompt
  * it takes the name, the color and the character
@@ -34,6 +35,7 @@ static char	*prompt_color(char *name, char *color, char *c)
 		return (NULL);
 	return (colored);
 }
+
 /**This function joins the Path and
  * the $ character to the colored prompt
  * and have the final prompt
@@ -56,6 +58,7 @@ static char	*join_prompt(char *prompt)
 		return (NULL);
 	return (tmp);
 }
+
 /**This function create the prompt
  * it colors the username and hostname
  * adds them together and adds the current directory
@@ -85,6 +88,7 @@ static char	*bash_prompt(void)
 		return (NULL);
 	return (prompt);
 }
+
 /**This function fixes the bug known as the "line wrap" bug
  * by adding the \001 and \002 characters to the prompt
 */
@@ -103,6 +107,7 @@ static char	*color_work(char *prompt)
 		return (NULL);
 	return (after);
 }
+
 /** This function reads the input from the user and returns it
  * first it prepares the prompt and colors it
  * then it reads the input and adds it to the history

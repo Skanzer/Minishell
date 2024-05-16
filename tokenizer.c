@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/14 10:59:16 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:36:36 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
 static char	**pipe_spliter(char *input)
 {
 	char	**split;
-	char	*c = "|";
+	char	*c;
 
+	c = "|";
 	split = ft_split_new(input, c);
-    if (!split)
+	if (!split)
 		return (NULL);
 	return (split);
 }
+
 /**@brief This function creates and initializes the commands struct
  * and returns the commands struct
  */	
@@ -51,6 +53,7 @@ static t_commands	*init_commands(t_minishell *mini)
 	commands->quoted_heredoc = 0;
 	return (commands);
 }
+
 /**@brief This function creates the commands struct
  * and puts the splited input into the commands struct
  * @param mini the minishell structure
@@ -82,6 +85,7 @@ static int	put_commands(t_minishell *mini, char **split)
 	}
 	return (SUCCESS);
 }
+
 /**@brief this function creates the tokens of the input command 
  * it splits the input into commands according to pipes
  * then it splits the commands into tokens and assigns the type of the token
@@ -89,10 +93,10 @@ static int	put_commands(t_minishell *mini, char **split)
 */
 int	tokenizer(t_minishell *mini)
 {
-    char    	**split;
+	char	**split;
 
 	split = pipe_spliter(mini->input);
-    if (split == NULL)
+	if (split == NULL)
 		return (ALLOC_ERROR);
 	if (put_commands(mini, split) == ALLOC_ERROR)
 	{
@@ -100,12 +104,8 @@ int	tokenizer(t_minishell *mini)
 		return (ALLOC_ERROR);
 	}
 	free_double(split);
-	if (organize_commands(mini->commands) == ALLOC_ERROR)
-	{
-		free_commands(mini->commands);
-		return (ALLOC_ERROR);
-	}
-	if (create_tokens(mini->commands) == ALLOC_ERROR)
+	if (organize_commands(mini->commands) == ALLOC_ERROR || \
+		create_tokens(mini->commands) == ALLOC_ERROR)
 	{
 		free_commands(mini->commands);
 		return (ALLOC_ERROR);
@@ -115,5 +115,5 @@ int	tokenizer(t_minishell *mini)
 		free_commands(mini->commands);
 		return (1);
 	}
-    return (SUCCESS);
+	return (SUCCESS);
 }

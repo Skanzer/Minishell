@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/29 15:35:38 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:13:57 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	init_shell(t_minishell *minishell, char **env, int argc, char **argv)
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
+	t_commands	*commands;
+	t_tokens	*tokens;
 
 	if (init_shell(&minishell, env, argc, argv) == ALLOC_ERROR)
 	{
@@ -61,7 +63,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		else
 		{
-			if (input_expansion(&minishell) == ALLOC_ERROR)
+			if (input_expansion(minishell.input, minishell.env) == ALLOC_ERROR)
 			{
 				printf("Error: failed to expand input\n");
 				free_shell(&minishell);
@@ -72,6 +74,24 @@ int	main(int argc, char **argv, char **env)
 				printf("Error: failed to allocate memory for minishell\n");
 				free_shell(&minishell);
 				return (1);
+			}
+			if (heredoc(minishell.commands) == 1)
+			{
+				printf("Error: failed to allocate memory for minishell\n");
+				free_shell(&minishell);
+				return (1);
+			}
+			commands = minishell.commands;
+			while (commands)
+			{
+				printf("heredoc: %s", commands->heredoc);
+				tokens = commands->tokens;
+				while (tokens)
+				{
+					printf("token: %s\n", tokens->token);
+					tokens = tokens->next;
+				}
+				commands = commands->next;
 			}
 			free_commands(minishell.commands);
 			free(minishell.input);

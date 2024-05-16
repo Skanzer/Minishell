@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 15:08:03 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/05 16:36:33 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:00:41 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @param input the input string
  * @param i the index of the single quote
  */
-void skip_single_quotes(char *input, int *i)
+void	skip_single_quotes(char *input, int *i)
 {
 	(*i)++;
 	while (input[*i] && input[*i] != '\'')

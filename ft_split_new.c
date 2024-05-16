@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:44:09 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/23 14:04:18 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:01:35 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	ft_splitcpy(char *word, char *str, char *c, int j)
 {
 	int		i;
 	char	quote;
+
 	i = 0;
 	while (str[j] != '\0' && check_c(str[j], c) == 1)
 		j++;
@@ -116,7 +117,7 @@ char	**ft_split_new(char const *str, char *c)
 	j = ft_wordcount((char *)str, c);
 	strs = (char **)malloc(sizeof(char *) * (j + 1));
 	if (strs == NULL)
-		return (free(strs),NULL);
+		return (free(strs), NULL);
 	strs[j] = NULL;
 	while (i < j)
 	{

@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:22:36 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/03 16:53:39 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:34:45 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 static int	redir_check(char *input)
 {
-    int	i;
+	int	i;
 
-    i = ft_strlen(input) - 1;
-    while (space_char(input[i]) == 1)
-        i--;
-    if (input[i] == '>' || input[i] == '<')
-        return (1);
-    return (0);
+	i = ft_strlen(input) - 1;
+	while (space_char(input[i]) == 1)
+		i--;
+	if (input[i] == '>' || input[i] == '<')
+		return (1);
+	return (0);
 }
+
 /**
  * @brief This function checks if there is a redirection in the end of the input
  * @param input the input string
@@ -31,26 +32,28 @@ static int	redir_check(char *input)
  */
 int	redirection_error(char *input)
 {
-    char	**split;
-    char	*c = "|";
-    int		i;
+	char	**split;
+	char	*c;
+	int		i;
 
-    i = 0;
-    split = ft_split_new(input, c);
-    if (!split)
+	i = 0;
+	c = "|";
+	split = ft_split_new(input, c);
+	if (!split)
 		return (ALLOC_ERROR);
-    while (split[i])
-    {
-        if (redir_check(split[i]) == 1)
-        {
-            free_double(split);
-            return (1);
-        }
-        i++;
-    }
-    free_double(split);
-    return (SUCCESS);
+	while (split[i])
+	{
+		if (redir_check(split[i]) == 1)
+		{
+			free_double(split);
+			return (1);
+		}
+		i++;
+	}
+	free_double(split);
+	return (SUCCESS);
 }
+
 /**@brief This function checks if there is a syntax
  * error (redirection), after tokenizing the input
  * @param commands the commands struct

@@ -6,11 +6,12 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:10:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/29 17:19:25 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:16:34 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 /**@brief This function assigns the type of the token
  * @param tokens the tokens struct
 */
@@ -27,6 +28,7 @@ static void	put_type(t_tokens *tokens)
 	else
 		tokens->type = WORD;
 }
+
 /**@brief This function puts the tokens into the tokens struct
  * @param commands the commands struct
  * @param split the splited input
@@ -59,16 +61,18 @@ static int	put_tokens(t_commands *commands, char **split)
 	}
 	return (SUCCESS);
 }
+
 /**@brief This function creates the tokens struct
  * and puts the splited input into the tokens struct
  * and assigns the type of the token
 */
 int	create_tokens(t_commands *commands)
 {
-	char	c[] = " \t\n\v\f\r";
-	char	**split;
-	t_commands	*tmp;
+	char			*c;
+	char			**split;
+	t_commands		*tmp;
 
+	c = " \t\n\v\f\r";
 	tmp = commands;
 	while (tmp)
 	{

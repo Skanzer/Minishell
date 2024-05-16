@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:45:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/13 15:13:34 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:18:53 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @param i the index of the dollar sign
  * @return the variable name
  */
-static char *get_var_name(char *input, int i)
+static char	*get_var_name(char *input, int i)
 {
 	char	*var_name;
 	int		var_len;
@@ -76,6 +76,13 @@ static char	*remove_var(char *input, int i, int len)
 	return (tmp);
 }
 
+/**
+ * @brief This function inserts the var value to the input string
+ * or remove the var_name and the dollar sign if the var doesn't exist
+ * @param input the input string
+ * @param i the index of the variable name
+ * @param env the environment variables
+ */
 char	*handle_expansion(char *input, int i, t_env *env)
 {
 	char	*var_name;
@@ -110,7 +117,6 @@ char	*handle_expansion(char *input, int i, t_env *env)
  * @param input the input string
  * @param env the environment variables
  */
-
 int	input_expansion(char *input, t_env *env)
 {
 	int		i;

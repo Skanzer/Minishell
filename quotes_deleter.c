@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:45:17 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/13 16:11:21 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:24:37 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ int	quotes_deleter(t_tokens *tokens)
 	return (SUCCESS);
 }
 
+/**
+ * @brief This function deletes all the quotes from the tokens
+ * and if the token is a heredoc it checks if there are quotes
+ * if there are quotes it sets the quoted_heredoc flag to 1
+ * @param commands the commands struct
+ */
 int	quotes_deleter_all(t_commands *commands)
 {
 	t_tokens	*tmp;

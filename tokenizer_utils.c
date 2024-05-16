@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:17:48 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/22 21:27:13 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:59:52 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	add_space_before(t_string *head)
 	}
 	return (SUCCESS);
 }
+
 /**
  * @brief This function adds a space after the redirections
  */
@@ -52,6 +53,7 @@ static int	add_space_after(t_string *head)
 	}
 	return (SUCCESS);
 }
+
 /**
  * @brief This function adds a space before and after the redirections 
  */
@@ -75,6 +77,7 @@ static int	space_adder(t_string *string)
 	}
 	return (SUCCESS);
 }
+
 /**
  * @brief This function puts the command in a linked list
  */
@@ -93,11 +96,9 @@ static t_string	*put_in_list(char *command)
 	while (command[i])
 	{
 		string->c = command[i];
+		string->next = NULL;
 		if (!command[i + 1])
-		{
-			string->next = NULL;
 			break ;
-		}
 		string->next = ft_calloc(1, sizeof(t_string));
 		if (!string->next)
 			return (NULL);
@@ -107,33 +108,35 @@ static t_string	*put_in_list(char *command)
 	}
 	return (head);
 }
+
 /** 
- * @brief This function replaces the command in the t_commands struct with the new command
- * it takes the command, put in a linked list, add spaces before and after the redirections
+ * @brief This function replaces the current command with the new one
+ * it takes the command, put in a linked list,
+ * add spaces before and after the redirections
  * and then replaces the command in the t_commands struct with the new command
  */
-int organize_commands(t_commands *commands)
+int	organize_commands(t_commands *commands)
 {
-    t_string	*string;
-    t_commands	*tmp;
+	t_string	*string;
+	t_commands	*tmp;
 
-    tmp = commands;
-    while (tmp)
-    {
-        string = put_in_list(tmp->command);
-        if (!string)
-            return (ALLOC_ERROR);
-        if (space_adder(string) == ALLOC_ERROR)
-		{
-			free_string(string);
-            return (ALLOC_ERROR);
-		}
-        if (replace_command(tmp, string) == ALLOC_ERROR)
+	tmp = commands;
+	while (tmp)
+	{
+		string = put_in_list(tmp->command);
+		if (!string)
+			return (ALLOC_ERROR);
+		if (space_adder(string) == ALLOC_ERROR)
 		{
 			free_string(string);
 			return (ALLOC_ERROR);
 		}
-        tmp = tmp->next;
-    }
-    return (SUCCESS);
+		if (replace_command(tmp, string) == ALLOC_ERROR)
+		{
+			free_string(string);
+			return (ALLOC_ERROR);
+		}
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
 }

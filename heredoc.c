@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:52:08 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/14 10:54:49 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:13:08 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char	*read_prompt(char *eof)
 {
 	char	*line;
 
-	//printf("\n");
 	line = readline("> ");
 	if (!line)
 		return (NULL);
@@ -63,7 +62,6 @@ char	*read_heredoc(t_commands *command, char *eof)
 	char	*line;
 	char	*heredoc;
 	char	*tmp;
-	char	*tmp2;
 
 	heredoc = ft_calloc(1, sizeof(char));
 	if (!heredoc)
@@ -75,15 +73,15 @@ char	*read_heredoc(t_commands *command, char *eof)
 			return (NULL);
 		else if (ft_strcmp(line, "") == 0)
 			break ;
-		tmp = process_line(command, line);
-		if (!tmp)
+		line = process_line(command, line);
+		if (!line)
 			return (NULL);
-		tmp2 = heredoc;
-		heredoc = ft_strjoin(heredoc, tmp);
+		tmp = heredoc;
+		heredoc = ft_strjoin(heredoc, line);
 		if (!heredoc)
 			return (NULL);
-		free(tmp2);
 		free(tmp);
+		free(line);
 	}
 	return (heredoc);
 }
@@ -106,6 +104,7 @@ int	heredoc(t_commands *commands)
 				return (1);
 			token = heredoc_token(token->next);
 		}
+		delete_token_node(tmp->tokens, HEREDOC);
 		tmp = tmp->next;
 	}
 	return (0);

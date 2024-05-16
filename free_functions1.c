@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 17:04:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/13 16:07:36 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:17:46 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ void	free_commands(t_commands *commands)
 		if (tmp->heredoc)
 			free(tmp->heredoc);
 		free(tmp);
-    }
+	}
 }

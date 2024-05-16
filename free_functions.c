@@ -12,40 +12,40 @@
 
 #include "minishell.h"
 
-void    free_env(t_minishell *minishell)
+void	free_env(t_minishell *minishell)
 {
-    t_env   *tmp;
+	t_env	*tmp;
 
-    while (minishell->env)
-    {
-        tmp = minishell->env;
-        minishell->env = minishell->env->next;
-        free(tmp->name);
-        free(tmp->value);
-        free(tmp);
-    }
+	while (minishell->env)
+	{
+		tmp = minishell->env;
+		minishell->env = minishell->env->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
 }
 
-void    free_tokens(t_tokens *tokens)
+void	free_tokens(t_tokens *tokens)
 {
-    t_tokens    *tmp;
+	t_tokens	*tmp;
 
-    while (tokens)
-    {
-        tmp = tokens;
-        tokens = tokens->next;
-        free(tmp->token);
-        free(tmp);
-    }
+	while (tokens)
+	{
+		tmp = tokens;
+		tokens = tokens->next;
+		free(tmp->token);
+		free(tmp);
+	}
 }
 
 void	free_double(char **array)
 {
-    int i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	if (!array)
-		return;
+		return ;
 	while (array[i])
 	{
 		free(array[i]);
@@ -54,22 +54,22 @@ void	free_double(char **array)
 	free(array);
 }
 
-void    free_shell(t_minishell *minishell)
+void	free_shell(t_minishell *minishell)
 {
-    if (minishell->input)
-        free(minishell->input);
-    free_env(minishell);
-    free_commands(minishell->commands);
+	if (minishell->input)
+		free(minishell->input);
+	free_env(minishell);
+	free_commands(minishell->commands);
 }
 
-void    free_string(t_string *string)
+void	free_string(t_string *string)
 {
-    t_string    *tmp;
+	t_string	*tmp;
 
-    while (string)
-    {
-        tmp = string;
-        string = string->next;
-        free(tmp);
-    }
+	while (string)
+	{
+		tmp = string;
+		string = string->next;
+		free(tmp);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 17:22:20 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/29 14:08:24 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:36:19 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	quotes_check(const char *input)
 	}
 	return (0);
 }
+
 /**This function checks for semicolons in the input
  */
 static int	semicolon(char *input)
@@ -52,57 +53,54 @@ static int	semicolon(char *input)
 	}
 	return (0);
 }
+
 /**This function checks if there is a pipe
  * in the beginning of the input and
  * if there are two consecutive pipes
  */
 int	pipe_begin(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while ((input[i] == ' ' || input[i] == '\t') && input[i])
+	while (space_char(input[i]) == 1 && input[i])
 		i++;
 	if (input[i] == '|')
-	{
-		printf("Minishell: syntax error near unexpected token `|'\n");
 		return (1);
-	}
 	i = 0;
 	while (input[i])
 	{
 		if (input[i] == '|')
 		{
 			i++;
-			while ((input[i] == ' ' || input[i] == '\t') && input[i])
+			while (space_char(input[i]) == 1 && input[i])
 				i++;
 			if (input[i] == '|')
-			{
-				printf("Minishell: syntax error near unexpected token `|'\n");
 				return (1);
-			}
 		}
 		i++;
 	}
 	return (0);
 }
+
 /**This function checks if the input is empty or not
- */ 
+ */
 int	empty_input(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!input)
 		return (1);
 	while (input[i])
 	{
-		if (input[i] != ' ' && input[i] != '\t')
+		if (space_char(input[i]) == 0)
 			return (0);
 		i++;
 	}
 	return (1);
 }
+
 /**This function checks for syntax error in the input
  * it checks for unclosed quotes, semicolons,
  * pipes at the beginning of the input,
@@ -128,13 +126,7 @@ int	error_check(char *input)
 		printf("Minishell: Semicolons are not interpreted !!\n");
 		return (1);
 	}
-	else if (pipe_begin(input) == 1)
-	{
-		free (input);
-		printf("Minishell: syntax error near unexpected token\n");
-		return (1);
-	}
-	else if (redirection_error(input) == 1)
+	else if (pipe_begin(input) == 1 || redirection_error(input) == 1)
 	{
 		free (input);
 		printf("Minishell: syntax error near unexpected token\n");

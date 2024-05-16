@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 16:34:30 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/04/01 10:33:29 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:03:34 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 # include <unistd.h>
 # include <stdlib.h> 
 
-typedef struct s_list {
+typedef struct s_list
+{
 	void			*content;
 	struct s_list	*next;
 }	t_list;
