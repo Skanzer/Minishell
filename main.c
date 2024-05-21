@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 17:13:57 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:43:02 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,22 @@ int	main(int argc, char **argv, char **env)
 				free_shell(&minishell);
 				return (1);
 			}
-			if (heredoc(minishell.commands) == 1)
+			if (heredoc(minishell.commands) == ALLOC_ERROR)
 			{
 				printf("Error: failed to allocate memory for minishell\n");
 				free_shell(&minishell);
 				return (1);
 			}
+			if (input_redir(minishell.commands) == 1)
+			{
+				free_commands(minishell.commands);
+				free(minishell.input);
+				continue;
+			}
 			commands = minishell.commands;
 			while (commands)
 			{
-				printf("heredoc: %s", commands->heredoc);
+				printf("infile: %s", commands->infile);
 				tokens = commands->tokens;
 				while (tokens)
 				{
