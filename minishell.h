@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 17:11:08 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:33:07 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ unsigned int		ft_strcpy(char *dest, const char *src);
 int					end_var_name(char c);
 int					space_char(char c);
 void				delete_token_node(t_tokens *tokens, t_token_type type);
+t_tokens			*find_token(t_tokens *token, t_token_type type);
+int					open_file(char *file_name, int w_r);
 /////////////input_error.c//////////////////////////////////////////////
 int					error_check(char *input);
 int					redirection_error(char *input);
@@ -153,4 +155,8 @@ int					quotes_deleter(t_tokens *tokens);
 char				*copy_without_quotes(char *token, char *new_token);
 //////////////heredoc.c//////////////////////////////////////////////////
 int					heredoc(t_commands *commands);
+//////////////redirections.c//////////////////////////////////////////////
+int					input_redir(t_commands *commands);
+//////////////join_input_pipe.c//////////////////////////////////////////////
+int					join_input_pipe(char *input);
 #endif
