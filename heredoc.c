@@ -6,26 +6,20 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:52:08 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 17:13:08 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:04:33 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tokens	*heredoc_token(t_tokens	*token)
-{
-	t_tokens	*tmp;
-
-	tmp = token;
-	while (tmp)
-	{
-		if (tmp->type == HEREDOC)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
+/**
+ * @brief This function processes the line
+ * it adds the newline between the line and the next one
+ * and checks if the line is quoted
+ * if it's quoted, it expands the variables inside of the line
+ * @param command the command that contains the heredoc
+ * @param line the line to process
+ */
 char	*process_line(t_commands *command, char *line)
 {
 	char	*tmp;
@@ -42,6 +36,10 @@ char	*process_line(t_commands *command, char *line)
 	return (tmp);
 }
 
+/**
+ * @brief This function reads the prompt from the user
+ * @param eof the end of file token
+ */
 char	*read_prompt(char *eof)
 {
 	char	*line;
@@ -57,6 +55,12 @@ char	*read_prompt(char *eof)
 	return (line);
 }
 
+/**
+ * @brief This function reads the heredoc from the user
+ * and joins the lines together while adding a newline between each line
+ * @param command the command that contains the heredoc
+ * @param eof the end of file token
+ */
 char	*read_heredoc(t_commands *command, char *eof)
 {
 	char	*line;
@@ -86,6 +90,12 @@ char	*read_heredoc(t_commands *command, char *eof)
 	return (heredoc);
 }
 
+/**
+ * @brief This function go through the commands
+ * and check if there is a heredoc token
+ * if it's the case, it gives the user a prompt
+ * to write the heredoc and store it in the heredoc variable
+ */
 int	heredoc(t_commands *commands)
 {
 	t_tokens	*token;
@@ -94,17 +104,16 @@ int	heredoc(t_commands *commands)
 	tmp = commands;
 	while (tmp)
 	{
-		token = heredoc_token(tmp->tokens);
+		token = find_token(tmp->tokens, HEREDOC);
 		while (token)
 		{
 			if (tmp->heredoc)
 				free(tmp->heredoc);
 			tmp->heredoc = read_heredoc(tmp, token->next->token);
 			if (tmp->heredoc == NULL)
-				return (1);
-			token = heredoc_token(token->next);
+				return (ALLOC_ERROR);
+			token = find_token(token->next, HEREDOC);
 		}
-		delete_token_node(tmp->tokens, HEREDOC);
 		tmp = tmp->next;
 	}
 	return (0);
