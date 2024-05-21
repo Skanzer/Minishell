@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:37:25 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 17:11:43 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:09:02 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,33 @@ void	delete_token_node(t_tokens *tokens, t_token_type type)
 		tmp = tmp->next;
 		prev = prev->next;
 	}
+}
+
+t_tokens	*find_token(t_tokens *token, t_token_type type)
+{
+	t_tokens	*tmp;
+
+	tmp = token;
+	while (tmp)
+	{
+		if (tmp->type == type)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+int	open_file(char *file_name, int w_r)
+{
+	int	ret;
+
+	if (w_r == 0)
+		ret = open(file_name, O_RDONLY, 0777);
+	else if (w_r == 2)
+		ret = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	else
+		ret = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (ret == -1)
+		perror(file_name);
+	return (ret);
 }
