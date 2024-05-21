@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:51:29 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 11:08:56 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:00:52 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,9 @@ char	*read_input(void)
 	input = readline(prompt);
 	free(prompt);
 	if (!input)
-	{
-		free(input);
 		return (NULL);
-	}
+	if (join_input_pipe(input) == ALLOC_ERROR)
+		return (NULL);
 	add_history(input);
 	return (input);
 }
