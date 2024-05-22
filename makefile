@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/05/21 12:16:02 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/05/22 15:32:23 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ quotes_deleter.c\
 heredoc.c\
 input_redirections.c\
 join_input_pipe.c\
+output_redirections.c\
+prepare_redirections.c\
 
 LIBNAMES = ./libft/libft.a
 

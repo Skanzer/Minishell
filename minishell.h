@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/21 15:33:07 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:34:17 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 //signal, sigaction, sigemptyset, sigaddset, kill, exit:
 # include <signal.h>
 //write, access, open, read, close, dup, dup2, pipe, isatty, ttyname, ttyslot, ioctl:
+# include <fcntl.h>
 # include <unistd.h>
 //getcwd, chdir, stat, lstat, fstat, unlink, execve:
 # include <sys/stat.h>
@@ -89,8 +90,8 @@ typedef struct s_commands
 	char				*infile;
 	int					infile_fd;
 	char				*outfile;
-	int					outfile_fd;
 	char				*append;
+	int					outfile_fd;
 	char				*heredoc;
 	int					quoted_heredoc;
 	struct s_commands	*next;
@@ -144,19 +145,25 @@ int					ft_wordcount(char *str, char *c);
 void				ft_wordcount_util(char *str, int *i);
 void				ft_stralloc_util(char *str, int *k, int *i);
 int					check_c(char c, char *characters);
-/////////////tokenizer.c//////////////////////////////////////////////////
+/////////////tokenizer.c////////////////////////////////////////////////////
 int					tokenizer(t_minishell *mini);
 int					organize_commands(t_commands *commands);
 int					replace_command(t_commands *commands, t_string *string);
 int					create_tokens(t_commands *commands);
-/////////////quotes_deleter.c//////////////////////////////////////////////
+/////////////quotes_deleter.c///////////////////////////////////////////////
 int					quotes_deleter_all(t_commands *commands);
 int					quotes_deleter(t_tokens *tokens);
 char				*copy_without_quotes(char *token, char *new_token);
-//////////////heredoc.c//////////////////////////////////////////////////
+//////////////heredoc.c//////////////////////////////////////////////////////
 int					heredoc(t_commands *commands);
-//////////////redirections.c//////////////////////////////////////////////
+//////////////input_redirections.c///////////////////////////////////////////
 int					input_redir(t_commands *commands);
 //////////////join_input_pipe.c//////////////////////////////////////////////
 int					join_input_pipe(char *input);
+//////////////output_redirections.c//////////////////////////////////////////
+int					output_redir(t_commands *commands);
+int					append_redir(t_commands *commands);
+//////////////prepare_redirections.c/////////////////////////////////////////
+int					in_app_out_redir(t_commands *commands);
+void				last_redir(t_commands *commands);
 #endif
