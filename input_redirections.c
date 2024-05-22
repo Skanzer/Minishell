@@ -6,13 +6,16 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 09:38:40 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/21 15:38:59 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:31:06 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_input_redir(char *input_redir)
+/**
+ * @brief This function checks if the file exists and is readable.
+ */
+static int	check_input_redir(char *input_redir)
 {
 	if (access(input_redir, F_OK | R_OK) == -1)
 	{
@@ -22,6 +25,12 @@ int	check_input_redir(char *input_redir)
 	return (0);
 }
 
+/**
+ * @brief This function go through each token struct in each command
+ * and check if there is a token with the type REDIR_IN.
+ * If there is, it checks if the file exists and is readable.
+ * If the file does not exist or is not readable, it prints an error message.
+ */
 int	input_redir(t_commands *commands)
 {
 	t_tokens	*token;
@@ -35,11 +44,12 @@ int	input_redir(t_commands *commands)
 		{
 			if (tmp->infile)
 				free(tmp->infile);
+			tmp->infile = NULL;
 			if (check_input_redir(token->next->token) == 1)
 				return (1);
 			tmp->infile = ft_strdup(token->next->token);
 			if (tmp->infile == NULL)
-				return (ALLOC_ERROR);
+				return (1);
 			token = find_token(token->next, REDIR_IN);
 		}
 		tmp = tmp->next;
