@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/22 15:34:17 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:18:47 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_commands
 	t_env				*env;
 	char				*command;
 	t_tokens			*tokens;
-	char				*cmd_name;
+	char				*builtin;
 	char				*cmd_path;
 	char				**cmd_args;
 	char				*infile;
@@ -102,6 +102,10 @@ typedef struct s_minishell
 	t_env				*env;
 	char				*input;
 	t_commands			*commands;
+	int					**pipe_fd;
+	int					exit_status;
+	pid_t				pid;
+	int					index_cmd;
 }	t_minishell;
 
 typedef struct s_string
@@ -120,7 +124,7 @@ int					quotes(char *input, int i);
 unsigned int		ft_strcpy(char *dest, const char *src);
 int					end_var_name(char c);
 int					space_char(char c);
-void				delete_token_node(t_tokens *tokens, t_token_type type);
+t_tokens			*delete_token_node(t_tokens *tokens, t_token_type type);
 t_tokens			*find_token(t_tokens *token, t_token_type type);
 int					open_file(char *file_name, int w_r);
 /////////////input_error.c//////////////////////////////////////////////
@@ -166,4 +170,11 @@ int					append_redir(t_commands *commands);
 //////////////prepare_redirections.c/////////////////////////////////////////
 int					in_app_out_redir(t_commands *commands);
 void				last_redir(t_commands *commands);
+//////////////prepare_cmd.c//////////////////////////////////////////////////
+int					create_cmd_args(t_commands *commands);
+//////////////executor.c/////////////////////////////////////////////////////
+int					execute_simple_cmd(t_minishell *minishell);
+int					create_pipe_fd(t_minishell *minishell, int nb_cmd);
+int					executor(t_minishell *minishell);
+void				free_pipe(int **array);
 #endif
