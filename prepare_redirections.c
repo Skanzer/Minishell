@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 10:10:57 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/22 15:36:01 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/23 10:23:35 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ static void	organize_redir_in(t_commands *command, t_tokens *token)
 			command->infile = NULL;
 		}
 	}
-	delete_token_node(command->tokens, REDIR_IN);
-	delete_token_node(command->tokens, HEREDOC);
+	command->tokens = delete_token_node(command->tokens, REDIR_IN);
+	command->tokens = delete_token_node(command->tokens, HEREDOC);
 }
 
 /**
@@ -115,8 +115,8 @@ static void	organize_redir_out(t_commands *command, t_tokens *token)
 			command->outfile = NULL;
 		}
 	}
-	delete_token_node(command->tokens, REDIR_OUT);
-	delete_token_node(command->tokens, REDIR_APPEND);
+	command->tokens = delete_token_node(command->tokens, REDIR_OUT);
+	command->tokens = delete_token_node(command->tokens, REDIR_APPEND);
 }
 
 /**

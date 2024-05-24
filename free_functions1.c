@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 17:04:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 13:17:46 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:49:46 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	free_commands(t_commands *commands)
 		free(tmp->command);
 		if (tmp->tokens)
 			free_tokens(tmp->tokens);
-		if (tmp->cmd_name)
-			free(tmp->cmd_name);
+		if (tmp->builtin)
+			free(tmp->builtin);
 		if (tmp->cmd_path)
 			free(tmp->cmd_path);
 		if (tmp->cmd_args)

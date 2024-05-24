@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 14:36:36 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:06:01 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_commands	*init_commands(t_minishell *mini)
 	commands->env = mini->env;
 	commands->command = NULL;
 	commands->tokens = NULL;
-	commands->cmd_name = NULL;
+	commands->builtin = NULL;
 	commands->cmd_path = NULL;
 	commands->cmd_args = NULL;
 	commands->infile = NULL;
