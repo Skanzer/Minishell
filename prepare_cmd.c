@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 08:08:21 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/24 19:01:42 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:20:03 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ int	create_cmd_args(t_commands *commands)
 	while (tmp)
 	{
 		tmp->tokens->token = join_path(tmp, tmp->tokens->token);
-		printf("cmd: %s\n", tmp->tokens->token);
+		if (!tmp->tokens->token)
+			return (ALLOC_ERROR);
 		tmp->cmd_args = put_in_dbl(tmp->tokens);
 		if (tmp->cmd_args == NULL)
 			return (ALLOC_ERROR);
