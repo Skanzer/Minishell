@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:37:25 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/27 13:51:40 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:21:52 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_tokens	*delete_first(t_tokens *tokens, t_token_type type)
 {
 	t_tokens	*tmp;
 
-	while (tokens->type == type)
+	while (tokens && tokens->type == type)
 	{
 		tmp = tokens;
 		tokens = tokens->next->next;
@@ -34,6 +34,8 @@ t_tokens	*delete_token_node(t_tokens *tokens, t_token_type type)
 	t_tokens	*prev;
 
 	tokens = delete_first(tokens, type);
+	if (!tokens)
+		return (NULL);
 	tmp = tokens->next;
 	prev = tokens;
 	while (tmp)
