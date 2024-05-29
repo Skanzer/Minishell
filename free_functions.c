@@ -62,7 +62,6 @@ void	free_shell(t_minishell *minishell)
 	free_commands(minishell->commands);
 	if (minishell->pipe_fd)
 		free_pipe(minishell->pipe_fd);
-	
 }
 
 void	free_string(t_string *string)
