@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/21 15:43:02 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/29 16:47:51 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ int	init_memory(t_minishell *minishell)
 	if (!minishell->env)
 		return (ALLOC_ERROR);
 	minishell->input = NULL;
+	minishell->commands = NULL;
+	minishell->pipe_fd = NULL;
+	minishell->exit_status = 0;
+	minishell->pid = -1;
+	minishell->index_cmd = 0;
+	minishell->nb_cmd = 0;
 	return (0);
 }
 
@@ -41,8 +47,8 @@ int	init_shell(t_minishell *minishell, char **env, int argc, char **argv)
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
-	t_commands	*commands;
-	t_tokens	*tokens;
+	//t_commands	*commands;
+	//t_tokens	*tokens;
 
 	if (init_shell(&minishell, env, argc, argv) == ALLOC_ERROR)
 	{
@@ -87,20 +93,46 @@ int	main(int argc, char **argv, char **env)
 				free(minishell.input);
 				continue;
 			}
-			commands = minishell.commands;
+			if (output_redir(minishell.commands) == 1)
+			{
+				free_commands(minishell.commands);
+				free(minishell.input);
+				continue;
+			}
+			last_redir(minishell.commands);
+			if (create_cmd_args(minishell.commands) == ALLOC_ERROR)
+			{
+				printf("Error: failed to allocate memory for minishell\n");
+				free_shell(&minishell);
+				return (1);
+			}
+			if (executor(&minishell) == ALLOC_ERROR)
+			{
+				printf("Error: failed to execute command\n");
+				free_shell(&minishell);
+				return (1);
+			}
+			/*commands = minishell.commands;
 			while (commands)
 			{
-				printf("infile: %s", commands->infile);
+				printf("infile: %s\noutfile: %s\nheredoc: %s\n", commands->infile, commands->outfile, commands->heredoc);
 				tokens = commands->tokens;
 				while (tokens)
 				{
 					printf("token: %s\n", tokens->token);
 					tokens = tokens->next;
 				}
+				printf("\\\\\\\\////////\n");
 				commands = commands->next;
-			}
+			}*/
 			free_commands(minishell.commands);
+			minishell.commands = NULL;
 			free(minishell.input);
+			minishell.input = NULL;
+			free_pipe(minishell.pipe_fd);
+			minishell.pipe_fd = NULL;
+			minishell.index_cmd = 0;
+			minisell.nb_cmd = 0;
 		}
 	}
 	return (0);

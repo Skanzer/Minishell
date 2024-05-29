@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/24 19:18:47 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:05:08 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_commands
 	int					outfile_fd;
 	char				*heredoc;
 	int					quoted_heredoc;
+	int					index;
 	struct s_commands	*next;
 }	t_commands;
 
@@ -106,6 +107,7 @@ typedef struct s_minishell
 	int					exit_status;
 	pid_t				pid;
 	int					index_cmd;
+	int					nb_cmd;
 }	t_minishell;
 
 typedef struct s_string
@@ -173,8 +175,12 @@ void				last_redir(t_commands *commands);
 //////////////prepare_cmd.c//////////////////////////////////////////////////
 int					create_cmd_args(t_commands *commands);
 //////////////executor.c/////////////////////////////////////////////////////
-int					execute_simple_cmd(t_minishell *minishell);
-int					create_pipe_fd(t_minishell *minishell, int nb_cmd);
+int					execute_simple_cmd(t_minishell *minishell, char **env);
 int					executor(t_minishell *minishell);
+int					create_pipe_fd(t_minishell *minishell);
 void				free_pipe(int **array);
+int					count_cmds(t_commands *commands);
+void				close_pipe_fd(t_minishell *minishell);
+//////////////env_to_double.c////////////////////////////////////////////////
+char				**env_double(t_env *env);
 #endif

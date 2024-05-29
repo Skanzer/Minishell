@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/05/22 15:32:23 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/05/29 12:47:31 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,11 @@ input_redirections.c\
 join_input_pipe.c\
 output_redirections.c\
 prepare_redirections.c\
+prepare_cmd.c\
+executor.c\
+executor_utils.c\
+executor_onecmd.c\
+env_to_double.c\
 
 LIBNAMES = ./libft/libft.a
 
