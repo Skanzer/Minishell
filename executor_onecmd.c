@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:20:12 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/29 14:49:58 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:00:45 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	prep_in_redir(t_minishell *minishell)
 	return (SUCCESS);
 }
 
-int	run_onechild(t_minishell *minishell, char **env)
+static int	run_onechild(t_minishell *minishell, char **env)
 {
 	if (prep_in_redir(minishell) == EXIT_FAILURE)
 		return (EXIT_FAILURE);

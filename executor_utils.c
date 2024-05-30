@@ -6,12 +6,15 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:08:00 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/29 18:04:41 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:23:27 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief This function counts the number of commands in the linked list.
+ */
 int	count_cmds(t_commands *commands)
 {
 	t_commands	*tmp;
@@ -27,7 +30,10 @@ int	count_cmds(t_commands *commands)
 	}
 	return (len);
 }
-
+ /**
+  * @brief This function frees the double array storing the pipes file descriptors.
+  
+  */
 void	free_pipe(int **array)
 {
 	int	i;
@@ -43,6 +49,9 @@ void	free_pipe(int **array)
 	free(array);
 }
 
+/**
+ * @brief This function creates the double array to store the pipes file descriptors.
+ */
 int	create_pipe_fd(t_minishell *minishell)
 {
 	int				i;
@@ -70,6 +79,9 @@ int	create_pipe_fd(t_minishell *minishell)
 	return (SUCCESS);
 }
 
+/**
+ * @brief This function closes the unused pipes file descriptors.
+ */
 void	close_pipe_fd(t_minishell *minishell)
 {
 	int	i;
@@ -78,9 +90,28 @@ void	close_pipe_fd(t_minishell *minishell)
 	while (i < minishell->nb_cmd - 1)
 	{
 		if (i != minishell->index_cmd - 1)
-			close(minishell->pipe_fd[i][0]);
+			close(minishell->pipe_fd[i][READ]);
 		if (i != minishell->index_cmd)
-			close(minishell->pipe_fd[i][1]);
+			close(minishell->pipe_fd[i][WRITE]);
 		i++;
+	}
+}
+
+/**
+ * @brief This function duplicates the write and read end of the pipe to the stdout and stdin.
+ * It closes the write end of the pipe if the command is not the last
+ * and closes the read end of the pipe if it is the first command.
+ */
+void	dup_pipefd(t_minishell *minishell, t_commands *cmd)
+{
+	if (cmd->index != minishel->nb_cmd - 1)
+	{
+		dup2(minishell->pipe_fd[cmd->index][WRITE], STDOUT_FILENO);
+		close(minishell->pipe_fd[cmd->index][WRITE]);
+	}
+	if (cmd->index != 0)
+	{
+		dup2(minishell->pipe_fd[cmd->index - 1][READ], STDIN_FILENO);
+		close(minishell->pipe_fd[cmd->index - 1][READ]);
 	}
 }
