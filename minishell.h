@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/29 18:05:08 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:02:41 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@
 # define SUCCESS 0
 # define INPUT_ERROR 1
 # define ALLOC_ERROR 2
+
+# define WRITE 1
+# define READ 0
 
 typedef enum e_token_type
 {
@@ -181,6 +184,11 @@ int					create_pipe_fd(t_minishell *minishell);
 void				free_pipe(int **array);
 int					count_cmds(t_commands *commands);
 void				close_pipe_fd(t_minishell *minishell);
+void				dup_pipefd(t_minishell *minishell, t_commands *cmd);
+int					dup_infile(t_minishell *minishell, t_commands *cmd);
+int					dup_heredoc(t_minishell *minishell, t_commands *cmd);
+int					dup_in_redir(t_minishell *minishell, t_commands *cmd);
+int					dup_out_redir(t_minishell *minishell, t_commands *cmd);
 //////////////env_to_double.c////////////////////////////////////////////////
 char				**env_double(t_env *env);
 #endif

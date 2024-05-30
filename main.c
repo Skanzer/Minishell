@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/29 16:47:51 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:47:08 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,19 +112,6 @@ int	main(int argc, char **argv, char **env)
 				free_shell(&minishell);
 				return (1);
 			}
-			/*commands = minishell.commands;
-			while (commands)
-			{
-				printf("infile: %s\noutfile: %s\nheredoc: %s\n", commands->infile, commands->outfile, commands->heredoc);
-				tokens = commands->tokens;
-				while (tokens)
-				{
-					printf("token: %s\n", tokens->token);
-					tokens = tokens->next;
-				}
-				printf("\\\\\\\\////////\n");
-				commands = commands->next;
-			}*/
 			free_commands(minishell.commands);
 			minishell.commands = NULL;
 			free(minishell.input);
