@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/05/30 16:57:54 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/05/31 23:24:28 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ executor_onecmd.c\
 executor_inredir.c\
 executor_outredir.c\
 env_to_double.c\
+error_msg.c\
 
 LIBNAMES = ./libft/libft.a
 
