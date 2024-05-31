@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/30 17:02:41 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:25:25 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int					open_file(char *file_name, int w_r);
 int					error_check(char *input);
 int					redirection_error(char *input);
 int					after_redir_check(t_commands *commands);
+int					empty_input(char *input);
 ////////////expander.c////////////////////////////////////////////////
 int					input_expansion(char *input, t_env *env);
 char				*insert_var(char *input, int i, char *value, char *name);
@@ -180,8 +181,8 @@ int					create_cmd_args(t_commands *commands);
 //////////////executor.c/////////////////////////////////////////////////////
 int					execute_simple_cmd(t_minishell *minishell, char **env);
 int					executor(t_minishell *minishell);
-int					create_pipe_fd(t_minishell *minishell);
-void				free_pipe(int **array);
+int					**create_pipe_fd(t_minishell *minishell);
+void				free_pipe(t_minishell *mini, int **array);
 int					count_cmds(t_commands *commands);
 void				close_pipe_fd(t_minishell *minishell);
 void				dup_pipefd(t_minishell *minishell, t_commands *cmd);
@@ -191,4 +192,6 @@ int					dup_in_redir(t_minishell *minishell, t_commands *cmd);
 int					dup_out_redir(t_minishell *minishell, t_commands *cmd);
 //////////////env_to_double.c////////////////////////////////////////////////
 char				**env_double(t_env *env);
+//////////////error_msg.c////////////////////////////////////////////////////
+void				error_msg(char *msg);
 #endif
