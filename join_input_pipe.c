@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 11:06:58 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/21 12:04:34 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/31 21:45:02 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	join_input_pipe(char *input)
 	char	*line;
 	char	*tmp;
 
+	if (empty_input(input) == 1)
+		return (SUCCESS);
 	while (if_pipe_end(input) == 1)
 	{
 		line = readline("> ");
