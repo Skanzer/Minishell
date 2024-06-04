@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:17:48 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 14:59:52 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:02:45 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static t_string	*put_in_list(char *command)
 
 /** 
  * @brief This function replaces the current command with the new one
- * it takes the command, put in a linked list,
+ * it takes the command, put it in a linked list,
  * add spaces before and after the redirections
  * and then replaces the command in the t_commands struct with the new command
  */
@@ -136,6 +136,7 @@ int	organize_commands(t_commands *commands)
 			free_string(string);
 			return (ALLOC_ERROR);
 		}
+		free_string(string);
 		tmp = tmp->next;
 	}
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 11:51:41 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 14:54:49 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:58:10 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	replace_command(t_commands *commands, t_string *string)
 		head = head->next;
 	}
 	new_command[i] = '\0';
-	free_string(string);
 	free(commands->command);
 	commands->command = new_command;
 	return (SUCCESS);
