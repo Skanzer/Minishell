@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/31 23:25:25 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:07:34 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@
 # define SUCCESS 0
 # define INPUT_ERROR 1
 # define ALLOC_ERROR 2
+
+# define CMD_NOT_FOUND 127
+# define CMD_NOT_EXECUTABLE 126
 
 # define WRITE 1
 # define READ 0
