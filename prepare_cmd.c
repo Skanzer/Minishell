@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 08:08:21 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/29 14:23:56 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:05:43 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ char	*join_path(t_commands *command, char *cmd)
 		if (access(path, F_OK | R_OK) == 0)
 		{
 			free_double(env_path);
-			free(cmd);
 			return (path);
 		}
 		free (path);
@@ -110,8 +109,8 @@ int	create_cmd_args(t_commands *commands)
 			tmp = tmp->next;
 			continue ;
 		}
-		tmp->tokens->token = join_path(tmp, tmp->tokens->token);
-		if (!tmp->tokens->token)
+		tmp->cmd_path = join_path(tmp, tmp->tokens->token);
+		if (!tmp->cmd_path)
 			return (ALLOC_ERROR);
 		tmp->cmd_args = put_in_dbl(tmp->tokens);
 		if (tmp->cmd_args == NULL)
