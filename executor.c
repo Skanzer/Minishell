@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:04:09 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/30 17:19:32 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:07:48 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,28 @@
  */
 static int	run_multichild(t_minishell *minishell, char **env)
 {
-	int				status;
 	t_commands		*cmd;
 
-	status = 0;
 	cmd = minishell->commands;
 	close_pipe_fd(minishell);
 	while (minishell->index_cmd != cmd->index)
 		cmd = cmd->next;
-	dup_pipefd(minishell, cmd);
-	if (dup_in_redir(cmd) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (dup_out_redir(cmd) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (execve(cmd->cmd_args[0], cmd->cmd_args, env) == -1)
+	if (cmd->cmd_args == NULL)
 	{
-		perror(cmd->cmd_args[0]);
+		free_double(env);
 		free_shell(minishell);
-		return (EXIT_FAILURE);
+		exit (SUCCESS);
+	}
+	dup_pipefd(minishell, cmd);
+	if (dup_in_redir(minishell, cmd) == EXIT_FAILURE)
+		exit(EXIT_FAILURE);
+	if (dup_out_redir(minishell, cmd) == EXIT_FAILURE)
+		exit(EXIT_FAILURE);
+	if (execve(cmd->cmd_path, cmd->cmd_args, env) == -1)
+	{
+		perror("Minishell");
+		free_shell(minishell);
+		exit(EXIT_FAILURE);
 	}
 	return (SUCCESS);
 }
@@ -56,14 +60,14 @@ static int	fork_and_exec(t_minishell *minishell, char **env)
 	int	status;
 
 	i = 0;
-	while (i < nb_cmd)
+	while (i < minishell->nb_cmd)
 	{
 		minishell->pid = fork();
 		if (minishell->pid == -1)
 		{
 			perror("Fork");
 			free_shell(minishell);
-			return (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
 		if (minishell->pid == 0)
 		{
@@ -72,32 +76,39 @@ static int	fork_and_exec(t_minishell *minishell, char **env)
 		}
 		else
 		{
+			if (i != minishell->nb_cmd - 1)
+				close(minishell->pipe_fd[minishell->index_cmd][WRITE]);
 			i++;
-			wait(minishell->pid, &status, 0);
+			minishell->index_cmd++;
+			waitpid(-1, &status, 0);
 		}
 	}
 	return (status);
 }
  /**
   * @brief This function creates the pipe_fd array in the minishell struct.
-  */
-static int	fill_pipefd(t_minishell *minishell)
+  
+static int	**fill_pipefd(t_minishell *minishell)
 {
 	int	i;
+	int	**pipe_fd;
 
 	i = 0;
-	while (minishell->pipe_fd[i])
+	pipe_fd = create_pipe_fd(minishell);
+	if (pipe_fd != NULL)
+		return (NULL);
+	while (pipe_fd[i])
 	{
-		if (pipe(minishell->pipe_fd[i]) == -1)
+		if (pipe(pipe_fd[i]) == -1)
 		{
 			perror("pipe");
-			free_shell(minishell);
-			return (EXIT_FAILURE);
+			free_pipe(pipe_fd);
+			return (NULL);
 		}
 		i++;
 	}
-	return (SUCCESS);
-}
+	return (pipe_fd);
+}*/
 
 /**
  * @brief This function creates the pipe_fd array in the minishell struct.
@@ -106,14 +117,11 @@ static int	fill_pipefd(t_minishell *minishell)
  */
 static int	execute_cmds(t_minishell *minishell, char **env)
 {
-	int	i;
 	int	status;
 
-	i = 0;
 	status = 0;
-	if (create_pipe_fd(minishell, minishell->nb_cmd) == ALLOC_ERROR)
-		return (ALLOC_ERROR);
-	if (fill_pipefd(minishell) == EXIT_FAILURE)
+	minishell->pipe_fd = create_pipe_fd(minishell);
+	if (minishell->pipe_fd == NULL)
 		return (EXIT_FAILURE);
 	status = fork_and_exec(minishell, env);
 	if (status == EXIT_FAILURE)
@@ -128,8 +136,6 @@ static int	execute_cmds(t_minishell *minishell, char **env)
  */
 int	executor(t_minishell *minishell)
 {
-	int		i;
-	int		status;
 	char	**env;
 
 	minishell->nb_cmd = count_cmds(minishell->commands);
@@ -137,7 +143,7 @@ int	executor(t_minishell *minishell)
 	if (env == NULL)
 	{
 		free_shell(minishell);
-		return (ALLOC_ERROR);
+		exit(ALLOC_ERROR);
 	}
 	if (minishell->nb_cmd == 1)
 	{
@@ -147,9 +153,10 @@ int	executor(t_minishell *minishell)
 	else
 	{
 		minishell->exit_status = execute_cmds(minishell, env);
+		minishell->index_cmd = -1;
+		close_pipe_fd(minishell);
+		free_pipe(minishell, minishell->pipe_fd);
 		return (minishell->exit_status);
 	}
-	minishell->index_cmd = -1;
-	close_pipe_fd(minishell);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:16:09 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/30 17:09:40 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:24:33 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	dup_heredoc(t_minishell *minishell, t_commands *cmd)
 			perror("pipe");
 			free_shell(minishell);
 			return (EXIT_FAILURE);
-		}octl, g
+		}
 		if (cmd->index == 0)
 		{
 			dup2(pipe_fd[READ], STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:08:00 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/30 17:23:27 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:30:10 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,19 @@ int	count_cmds(t_commands *commands)
 	}
 	return (len);
 }
+
  /**
   * @brief This function frees the double array storing the pipes file descriptors.
   
   */
-void	free_pipe(int **array)
+void	free_pipe(t_minishell *mini, int **array)
 {
 	int	i;
 
 	i = 0;
 	if (!array)
 		return ;
-	while (array[i])
+	while (i < mini->nb_cmd - 1 && array[i])
 	{
 		free(array[i]);
 		i++;
@@ -52,31 +53,32 @@ void	free_pipe(int **array)
 /**
  * @brief This function creates the double array to store the pipes file descriptors.
  */
-int	create_pipe_fd(t_minishell *minishell)
+int	**create_pipe_fd(t_minishell *minishell)
 {
-	int				i;
-	t_minishell		*tmp;
+	int	i;
+	int	**pipe_fd;
 
 	i = 0;
-	tmp = minishell;
-	minishell->pipe_fd = ft_calloc(tmp->nb_cmd, sizeof(int *));
-	if (!minishell->pipe_fd)
-		return (ALLOC_ERROR);
-	while (i < tmp->nb_cmd)
+	pipe_fd = (int **)ft_calloc(minishell->nb_cmd - 1, sizeof(int *));
+	if (!pipe_fd)
+		return (NULL);
+	while (i < minishell->nb_cmd - 1)
 	{
-		if (i == tmp->nb_cmd - 1)
-			minishell->pipe_fd[i++] = NULL;
-		else
+		pipe_fd[i] = (int *)ft_calloc(2, sizeof(int));
+		if (!pipe_fd[i])
 		{
-			minishell->pipe_fd[i++] = ft_calloc(2, sizeof(int));
-			if (!minishell->pipe_fd[i])
-			{
-				free_pipe(minishell->pipe_fd);
-				return (ALLOC_ERROR);
-			}
+			free_pipe(minishell, pipe_fd);
+			return (NULL);
 		}
+		if (pipe(pipe_fd[i]) == -1)
+		{
+			perror("pipe");
+			free_pipe(minishell, pipe_fd);
+			return (NULL);
+		}
+		i++;
 	}
-	return (SUCCESS);
+	return (pipe_fd);
 }
 
 /**
@@ -104,7 +106,7 @@ void	close_pipe_fd(t_minishell *minishell)
  */
 void	dup_pipefd(t_minishell *minishell, t_commands *cmd)
 {
-	if (cmd->index != minishel->nb_cmd - 1)
+	if (cmd->index != minishell->nb_cmd - 1)
 	{
 		dup2(minishell->pipe_fd[cmd->index][WRITE], STDOUT_FILENO);
 		close(minishell->pipe_fd[cmd->index][WRITE]);

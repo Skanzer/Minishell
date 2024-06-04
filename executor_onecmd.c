@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:20:12 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/30 17:00:45 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:22:17 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	infile_fd(t_minishell *minishell)
 	if (minishell->commands->infile_fd == -1)
 	{
 		perror(minishell->commands->infile);
-		free_shell(minishell);
 		return (EXIT_FAILURE);
 	}
 	dup2(minishell->commands->infile_fd, STDIN_FILENO);
@@ -43,7 +42,6 @@ static int	prep_out_redir(t_minishell *minishell)
 		if (tmp->outfile_fd == -1)
 		{
 			perror(tmp->outfile);
-			free_shell(minishell);
 			return (EXIT_FAILURE);
 		}
 		dup2(tmp->outfile_fd, STDOUT_FILENO);
@@ -81,15 +79,29 @@ static int	prep_in_redir(t_minishell *minishell)
 static int	run_onechild(t_minishell *minishell, char **env)
 {
 	if (prep_in_redir(minishell) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	{
+		free_shell(minishell);
+		free_double(env);
+		exit(EXIT_FAILURE);
+	}
 	if (prep_out_redir(minishell) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (execve(minishell->commands->cmd_args[0], \
+	{
+		free_shell(minishell);
+		free_double(env);
+		exit(EXIT_FAILURE);
+	}
+	if (execve(minishell->commands->cmd_path, \
 								minishell->commands->cmd_args, env) == -1)
 	{
-		perror(minishell->commands->cmd_args[0]);
+		error_msg(minishell->commands->cmd_args[0]);
+		free_double(env);
 		free_shell(minishell);
-		return (EXIT_FAILURE);
+		if (errno == 127)
+			exit(CMD_NOT_FOUND);
+		else if (errno == 126)
+			exit(CMD_NOT_EXECUTABLE);
+		else
+			exit(EXIT_FAILURE);
 	}
 	return (SUCCESS);
 }
@@ -99,11 +111,15 @@ int	execute_simple_cmd(t_minishell *minishell, char **env)
 	int		status;
 
 	status = 0;
+	if (minishell->commands->cmd_args == NULL)
+	{
+		free_double(env);
+		return (SUCCESS);
+	}
 	minishell->pid = fork();
 	if (minishell->pid == -1)
 	{
 		perror("Fork");
-		free_shell(minishell);
 		return (EXIT_FAILURE);
 	}
 	if (minishell->pid == 0)
