@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:20:23 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/31 23:26:34 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:22:24 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void error_msg(char *msg)
 	if (!error_msg)
 		return ;
 	perror(error_msg);
+	printf("errno: %d\n", errno);
 	free (error_msg);
 }
