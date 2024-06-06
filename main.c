@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/04 16:18:04 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:25:36 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int argc, char **argv, char **env)
 			}
 			if (input_redir(minishell.commands) == 1)
 			{
+				minishell.exit_status = 1;
 				free_commands(minishell.commands);
 				free(minishell.input);
 				continue;
@@ -113,8 +114,7 @@ int	main(int argc, char **argv, char **env)
 				free_shell(&minishell);
 				return (1);
 			}
-			printf("exit status: %d\n", minishell.exit_status);
-			free_commands(minishell.commands);
+			printf("exit status: %ld\n", minishell.exit_status);
 			minishell.commands = NULL;
 			free(minishell.input);
 			minishell.input = NULL;

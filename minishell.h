@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/04 16:07:34 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:43:00 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct s_minishell
 	char				*input;
 	t_commands			*commands;
 	int					**pipe_fd;
-	int					exit_status;
+	size_t				exit_status;
 	pid_t				pid;
 	int					index_cmd;
 	int					nb_cmd;
@@ -182,7 +182,7 @@ void				last_redir(t_commands *commands);
 //////////////prepare_cmd.c//////////////////////////////////////////////////
 int					create_cmd_args(t_commands *commands);
 //////////////executor.c/////////////////////////////////////////////////////
-int					execute_simple_cmd(t_minishell *minishell, char **env);
+int					execute_one_cmd(t_minishell *minishell, char **env);
 int					executor(t_minishell *minishell);
 int					**create_pipe_fd(t_minishell *minishell);
 void				free_pipe(t_minishell *mini, int **array);
@@ -193,6 +193,7 @@ int					dup_infile(t_minishell *minishell, t_commands *cmd);
 int					dup_heredoc(t_minishell *minishell, t_commands *cmd);
 int					dup_in_redir(t_minishell *minishell, t_commands *cmd);
 int					dup_out_redir(t_minishell *minishell, t_commands *cmd);
+void				cmd_execution(t_commands *command, char **env);
 //////////////env_to_double.c////////////////////////////////////////////////
 char				**env_double(t_env *env);
 //////////////error_msg.c////////////////////////////////////////////////////

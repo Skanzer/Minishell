@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/05/31 23:24:28 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/06/06 13:59:02 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ prepare_redirections.c\
 prepare_cmd.c\
 executor.c\
 executor_utils.c\
+executor_utils_1.c\
 executor_onecmd.c\
 executor_inredir.c\
 executor_outredir.c\
