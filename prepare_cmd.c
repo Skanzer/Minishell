@@ -6,12 +6,15 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 08:08:21 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/04 14:05:43 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:51:28 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief This function counts the number of tokens in the tokens linked list.
+*/
 static int	count_tokens(t_tokens *tokens)
 {
 	t_tokens	*tmp;
@@ -27,6 +30,11 @@ static int	count_tokens(t_tokens *tokens)
 	return (len);
 }
 
+/**
+ * @brief This function puts the remaining tokens in a double pointer.
+ * If this part is reached, it means that the tokens will only have the
+ * command name and the arguments.
+ */
 char	**put_in_dbl(t_tokens *tokens)
 {
 	t_tokens	*tmp;
@@ -54,6 +62,12 @@ char	**put_in_dbl(t_tokens *tokens)
 	return (dbl);
 }
 
+/**
+ * @brief This function goes through the environment linked list 
+ * and returns the value of the environment variable.
+ * @param env The environment linked list.
+ * @param name The name of the environment variable.
+*/
 char	*get_from_env(t_env *env, char *name)
 {
 	t_env	*tmp;
@@ -68,6 +82,14 @@ char	*get_from_env(t_env *env, char *name)
 	return (NULL);
 }
 
+/**
+ * @brief This function creates the command path by joining the path from the PATH
+ * environment variable with the command name.
+ * If the command name contains a '/', it returns the command name.
+ * @param command The command linked list.
+ * @param cmd The command name.
+ * @return char* Returns the command path.
+ */
 char	*join_path(t_commands *command, char *cmd)
 {
 	char	*path;
@@ -97,6 +119,13 @@ char	*join_path(t_commands *command, char *cmd)
 	return (cmd);
 }
 
+/**
+ * @brief This function creates the command path and the command arguments.
+ * it goes through the commands linked list and creates the command path
+ * and the command arguments for each command.
+ * @param commands The commands linked list.
+ * @return int Returns 0 if the function was successful, 1 if there was an allocation error.
+ */
 int	create_cmd_args(t_commands *commands)
 {
 	t_commands	*tmp;
