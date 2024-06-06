@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:04:09 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/04 14:07:48 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:42:41 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /**
  * @brief This function is what the child process does.
  * First it closes the unused pipe file descriptors.
- * Then it retrieves the command to be executed based on the index of the command.
+ * Then it retrieves the command to be executed based
+ * on the index of the command.
  * Then it duplicates the pipe file descriptors.
  * Then it checks for in/output redirection and duplicates the file descriptors.
  * Then it executes the command.
@@ -39,20 +40,15 @@ static int	run_multichild(t_minishell *minishell, char **env)
 		exit(EXIT_FAILURE);
 	if (dup_out_redir(minishell, cmd) == EXIT_FAILURE)
 		exit(EXIT_FAILURE);
-	if (execve(cmd->cmd_path, cmd->cmd_args, env) == -1)
-	{
-		perror("Minishell");
-		free_shell(minishell);
-		exit(EXIT_FAILURE);
-	}
+	cmd_execution(cmd, env);
 	return (SUCCESS);
 }
 
 /**
  * @brief This function forks and executes the commands.
  * The parent forks and waits for the child to finish and then it forks again.
- * There will be only one parent process and multiple child processes, which will run
- * after each other.
+ * There will be only one parent process and multiple child processes,
+ * which will run after each other.
  */
 static int	fork_and_exec(t_minishell *minishell, char **env)
 {
@@ -66,14 +62,12 @@ static int	fork_and_exec(t_minishell *minishell, char **env)
 		if (minishell->pid == -1)
 		{
 			perror("Fork");
+			free_double(env);
 			free_shell(minishell);
 			exit(EXIT_FAILURE);
 		}
 		if (minishell->pid == 0)
-		{
-			if (run_multichild(minishell, env) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-		}
+			run_multichild(minishell, env);
 		else
 		{
 			if (i != minishell->nb_cmd - 1)
@@ -85,30 +79,6 @@ static int	fork_and_exec(t_minishell *minishell, char **env)
 	}
 	return (status);
 }
- /**
-  * @brief This function creates the pipe_fd array in the minishell struct.
-  
-static int	**fill_pipefd(t_minishell *minishell)
-{
-	int	i;
-	int	**pipe_fd;
-
-	i = 0;
-	pipe_fd = create_pipe_fd(minishell);
-	if (pipe_fd != NULL)
-		return (NULL);
-	while (pipe_fd[i])
-	{
-		if (pipe(pipe_fd[i]) == -1)
-		{
-			perror("pipe");
-			free_pipe(pipe_fd);
-			return (NULL);
-		}
-		i++;
-	}
-	return (pipe_fd);
-}*/
 
 /**
  * @brief This function creates the pipe_fd array in the minishell struct.
@@ -131,7 +101,8 @@ static int	execute_cmds(t_minishell *minishell, char **env)
 
 /**
  * @brief This function executes the commands in the minishell struct.
- * It counts the number of the commands, then transforms the env struct to a double array,
+ * It counts the number of the commands,
+ * then transforms the env struct to a double array,
  * then if executes the commands.
  */
 int	executor(t_minishell *minishell)
@@ -147,12 +118,12 @@ int	executor(t_minishell *minishell)
 	}
 	if (minishell->nb_cmd == 1)
 	{
-		minishell->exit_status = execute_simple_cmd(minishell, env);
+		minishell->exit_status = WEXITSTATUS(execute_one_cmd(minishell, env));
 		return (minishell->exit_status);
 	}
 	else
 	{
-		minishell->exit_status = execute_cmds(minishell, env);
+		minishell->exit_status = WEXITSTATUS(execute_cmds(minishell, env));
 		minishell->index_cmd = -1;
 		close_pipe_fd(minishell);
 		free_pipe(minishell, minishell->pipe_fd);

@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:08:00 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/31 23:30:10 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:32:12 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	count_cmds(t_commands *commands)
 	return (len);
 }
 
- /**
-  * @brief This function frees the double array storing the pipes file descriptors.
-  
-  */
+/**
+ * @brief This function frees the double array storing 
+ * the pipes file descriptors.
+*/
 void	free_pipe(t_minishell *mini, int **array)
 {
 	int	i;
@@ -51,7 +51,8 @@ void	free_pipe(t_minishell *mini, int **array)
 }
 
 /**
- * @brief This function creates the double array to store the pipes file descriptors.
+ * @brief This function creates the double array to store
+ * the pipes file descriptors.
  */
 int	**create_pipe_fd(t_minishell *minishell)
 {
@@ -100,7 +101,8 @@ void	close_pipe_fd(t_minishell *minishell)
 }
 
 /**
- * @brief This function duplicates the write and read end of the pipe to the stdout and stdin.
+ * @brief This function duplicates the write and read end 
+ * of the pipe to the stdout and stdin.
  * It closes the write end of the pipe if the command is not the last
  * and closes the read end of the pipe if it is the first command.
  */

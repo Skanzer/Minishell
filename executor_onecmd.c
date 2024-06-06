@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:20:12 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/04 16:22:17 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:42:54 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,23 +90,11 @@ static int	run_onechild(t_minishell *minishell, char **env)
 		free_double(env);
 		exit(EXIT_FAILURE);
 	}
-	if (execve(minishell->commands->cmd_path, \
-								minishell->commands->cmd_args, env) == -1)
-	{
-		error_msg(minishell->commands->cmd_args[0]);
-		free_double(env);
-		free_shell(minishell);
-		if (errno == 127)
-			exit(CMD_NOT_FOUND);
-		else if (errno == 126)
-			exit(CMD_NOT_EXECUTABLE);
-		else
-			exit(EXIT_FAILURE);
-	}
+	cmd_execution(minishell->commands, env);
 	return (SUCCESS);
 }
 
-int	execute_simple_cmd(t_minishell *minishell, char **env)
+int	execute_one_cmd(t_minishell *minishell, char **env)
 {
 	int		status;
 
