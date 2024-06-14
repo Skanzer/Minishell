@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:52:08 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/21 19:04:33 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:35:51 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*process_line(t_commands *command, char *line)
 {
 	char	*tmp;
 
-	if ((command->quoted_heredoc == 1))
+	if (command->quoted_heredoc == 1)
 	{
 		if (input_expansion (line, command->env) == ALLOC_ERROR)
 			return (NULL);
