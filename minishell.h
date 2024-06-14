@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/06 15:43:00 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:06:39 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,5 +197,5 @@ void				cmd_execution(t_commands *command, char **env);
 //////////////env_to_double.c////////////////////////////////////////////////
 char				**env_double(t_env *env);
 //////////////error_msg.c////////////////////////////////////////////////////
-void				error_msg(char *msg);
+int 				error_msg(char *cmd, char *msg, int error_nb);
 #endif
