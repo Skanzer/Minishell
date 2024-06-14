@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/14 17:06:39 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/14 21:37:56 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@
 # define CMD_NOT_FOUND 127
 # define CMD_NOT_EXECUTABLE 126
 
+# define PATH_MAX 4096
+
 # define WRITE 1
 # define READ 0
 
@@ -110,6 +112,8 @@ typedef struct s_minishell
 	char				*input;
 	t_commands			*commands;
 	int					**pipe_fd;
+	char				*pwd;
+	char				*old_pwd;
 	size_t				exit_status;
 	pid_t				pid;
 	int					index_cmd;
@@ -198,4 +202,5 @@ void				cmd_execution(t_commands *command, char **env);
 char				**env_double(t_env *env);
 //////////////error_msg.c////////////////////////////////////////////////////
 int 				error_msg(char *cmd, char *msg, int error_nb);
+
 #endif
