@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:20:23 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/06 14:35:08 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:05:33 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void error_msg(char *msg)
+int error_msg(char *cmd, char *msg, int error_nb)
 {
 	char	*error_msg;
 	char 	*tmp;
 
-	tmp = ft_strjoin("Minishell: ", msg);
-	if (!tmp)
-		return ;
-	error_msg = ft_strjoin(tmp, ": ");
+	error_msg = ft_strjoin("Minishell: ", cmd);
+	tmp = ft_strjoin(error_msg, ": ");
+	free(error_msg);
+	error_msg = ft_strjoin(tmp, msg);
 	free(tmp);
-	if (!error_msg)
-		return ;
-	printf("%s command not found\n", error_msg);
+	ft_putendl_fd(error_msg, STDERR_FILENO);
 	free (error_msg);
+	return (error_nb);
 }
