@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:20:12 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/27 15:18:01 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:04:01 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	execute_builtin(t_minishell *mini, t_commands *cmd)
 int	execute_one_cmd(t_minishell *minishell, char **env)
 {
 	int		status;
+	int		test;
 
 	status = 0;
 	if (minishell->commands->cmd_args == NULL)
@@ -43,7 +44,11 @@ int	execute_one_cmd(t_minishell *minishell, char **env)
 	}
 	if (minishell->commands->builtin == 1)
 	{
+		test = dup(STDOUT_FILENO);
+		prep_out_redir(minishell);
 		status = execute_builtin(minishell, minishell->commands);
+		dup2(test, STDOUT_FILENO);
+		close(minishell->commands->outfile_fd);
 		free_double(env);
 	}
 	else
