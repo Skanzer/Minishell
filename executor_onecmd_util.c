@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:58:21 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/19 19:09:09 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:03:31 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	infile_fd(t_minishell *minishell)
 	return (SUCCESS);
 }
 
-static int	prep_out_redir(t_minishell *minishell)
+int	prep_out_redir(t_minishell *minishell)
 {
 	t_commands	*tmp;
 
