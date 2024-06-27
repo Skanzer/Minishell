@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 08:08:21 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/06 14:51:28 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:20:33 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,14 @@ int	create_cmd_args(t_commands *commands)
 			tmp = tmp->next;
 			continue ;
 		}
-		tmp->cmd_path = join_path(tmp, tmp->tokens->token);
-		if (!tmp->cmd_path)
-			return (ALLOC_ERROR);
+		if (is_builtin(tmp->tokens->token) == 1)
+			tmp->builtin = 1;
+		else
+		{
+			tmp->cmd_path = join_path(tmp, tmp->tokens->token);
+			if (!tmp->cmd_path)
+				return (ALLOC_ERROR);	
+		}
 		tmp->cmd_args = put_in_dbl(tmp->tokens);
 		if (tmp->cmd_args == NULL)
 			return (ALLOC_ERROR);

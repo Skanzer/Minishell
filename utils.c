@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:29:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/06 14:39:58 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:19:41 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,25 @@ int	space_char(char c)
 	if (c == ' ' || c == '\t' || c == '\n')
 		return (1);
 	else if (c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
+
+int	is_builtin(char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", 5) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "cd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "pwd", 4) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "export", 7) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "unset", 6) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "env", 4) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "exit", 5) == 0)
 		return (1);
 	return (0);
 }

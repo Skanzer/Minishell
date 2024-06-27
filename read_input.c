@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:51:29 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/31 21:44:01 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:44:23 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static char	*prompt_color(char *name, char *color, char *c)
  * the $ character to the colored prompt
  * and have the final prompt
 */
-static char	*join_prompt(char *prompt)
+static char	*join_prompt(char *prompt, t_minishell *mini)
 {
 	char	*tmp;
-
-	tmp = ft_strjoin(prompt, getenv("PWD"));
+ 
+	tmp = ft_strjoin(prompt, mini->pwd);
 	free(prompt);
 	if (!tmp)
 		return (NULL);
@@ -63,7 +63,7 @@ static char	*join_prompt(char *prompt)
  * it colors the username and hostname
  * adds them together and adds the current directory
 */
-static char	*bash_prompt(void)
+static char	*bash_prompt(t_minishell *mini)
 {
 	char	*username;
 	char	*hostname;
@@ -83,7 +83,7 @@ static char	*bash_prompt(void)
 	free(hostname);
 	if (!prompt)
 		return (NULL);
-	prompt = join_prompt(prompt);
+	prompt = join_prompt(prompt, mini);
 	if (!prompt)
 		return (NULL);
 	return (prompt);
@@ -112,12 +112,12 @@ static char	*color_work(char *prompt)
  * first it prepares the prompt and colors it
  * then it reads the input and adds it to the history
 */
-char	*read_input(void)
+char	*read_input(t_minishell *mini)
 {
 	char	*input;
 	char	*prompt;
 
-	prompt = bash_prompt();
+	prompt = bash_prompt(mini);
 	if (!prompt)
 		return (NULL);
 	prompt = color_work(prompt);
