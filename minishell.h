@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/14 21:37:56 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:16:56 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_commands
 	t_env				*env;
 	char				*command;
 	t_tokens			*tokens;
-	char				*builtin;
+	int					builtin;
 	char				*cmd_path;
 	char				**cmd_args;
 	char				*infile;
@@ -130,7 +130,7 @@ typedef struct s_string
 /////////////get_env.c//////////////////////////////////////////////
 int					get_env(t_minishell *mini, char **env);
 /////////////read_input.c//////////////////////////////////////////////
-char				*read_input(void);
+char				*read_input(t_minishell *mini);
 /////////////utils.c//////////////////////////////////////////////
 int					quotes(char *input, int i);
 unsigned int		ft_strcpy(char *dest, const char *src);
@@ -139,6 +139,7 @@ int					space_char(char c);
 t_tokens			*delete_token_node(t_tokens *tokens, t_token_type type);
 t_tokens			*find_token(t_tokens *token, t_token_type type);
 int					open_file(char *file_name, int w_r);
+int					is_builtin(char *cmd);
 /////////////input_error.c//////////////////////////////////////////////
 int					error_check(char *input);
 int					redirection_error(char *input);
@@ -187,6 +188,7 @@ void				last_redir(t_commands *commands);
 int					create_cmd_args(t_commands *commands);
 //////////////executor.c/////////////////////////////////////////////////////
 int					execute_one_cmd(t_minishell *minishell, char **env);
+int 				fork_onecmd(t_minishell *minishell, char **env);
 int					executor(t_minishell *minishell);
 int					**create_pipe_fd(t_minishell *minishell);
 void				free_pipe(t_minishell *mini, int **array);
@@ -198,9 +200,18 @@ int					dup_heredoc(t_minishell *minishell, t_commands *cmd);
 int					dup_in_redir(t_minishell *minishell, t_commands *cmd);
 int					dup_out_redir(t_minishell *minishell, t_commands *cmd);
 void				cmd_execution(t_commands *command, char **env);
+int					execute_builtin(t_minishell *mini, t_commands *cmd);
 //////////////env_to_double.c////////////////////////////////////////////////
 char				**env_double(t_env *env);
 //////////////error_msg.c////////////////////////////////////////////////////
 int 				error_msg(char *cmd, char *msg, int error_nb);
+//////////////builtins///////////////////////////////////////////////////////
+int					cd_builtin(t_minishell *mini, t_commands *cmd);
+int					echo_builtin(t_commands *cmd);
+int					env_builtin(t_commands *cmd);
+int					export_builtin(t_commands *cmd);
+int					pwd_builtin(t_minishell *mini);
+int					is_valid_env_var_key(char *var);
+int					unset_builtin(t_minishell *mini);
 
 #endif

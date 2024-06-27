@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/06 14:25:36 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:44:44 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	init_memory(t_minishell *minishell)
 {
-	minishell->env = ft_calloc(1, sizeof(t_env));
-	if (!minishell->env)
-		return (ALLOC_ERROR);
 	minishell->input = NULL;
 	minishell->commands = NULL;
 	minishell->pipe_fd = NULL;
@@ -24,6 +21,8 @@ int	init_memory(t_minishell *minishell)
 	minishell->pid = -1;
 	minishell->index_cmd = 0;
 	minishell->nb_cmd = 0;
+	minishell->old_pwd = get_var_value("OLDPWD", minishell->env);
+	minishell->pwd = get_var_value("PWD", minishell->env);
 	return (0);
 }
 
@@ -34,9 +33,12 @@ int	init_shell(t_minishell *minishell, char **env, int argc, char **argv)
 		printf("argv[0]: %s is the only argument needed to run minishell\n", argv[0]);
 		return (1);		
 	}
-	if (init_memory(minishell) == ALLOC_ERROR)
+	minishell->env = ft_calloc(1, sizeof(t_env));
+	if (!minishell->env)
 		return (ALLOC_ERROR);
 	if (get_env(minishell, env) == ALLOC_ERROR)
+		return (ALLOC_ERROR);
+	if (init_memory(minishell) == ALLOC_ERROR)
 		return (ALLOC_ERROR);
 	if (!minishell->env)
 		return (ALLOC_ERROR);
@@ -59,7 +61,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		
-		minishell.input = read_input();
+		minishell.input = read_input(&minishell);
 		if (!minishell.input)
 		{
 			printf("Error: failed to read input\n");

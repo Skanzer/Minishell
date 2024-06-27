@@ -6,7 +6,7 @@
 #    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/06/06 13:59:02 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/06/27 15:08:23 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,10 +40,17 @@ executor.c\
 executor_utils.c\
 executor_utils_1.c\
 executor_onecmd.c\
+executor_onecmd_util.c\
 executor_inredir.c\
 executor_outredir.c\
 env_to_double.c\
 error_msg.c\
+./builtins/cd_builtin.c\
+./builtins/echo_builtin.c\
+./builtins/env_builtin.c\
+./builtins/export_builtin.c\
+./builtins/pwd_builtin.c\
+./builtins/unset_builtin.c\
 
 LIBNAMES = ./libft/libft.a
 
