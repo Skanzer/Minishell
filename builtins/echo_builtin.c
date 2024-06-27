@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 21:43:04 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/14 23:36:55 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:02:04 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	nflag_check(char *arg)
 {
@@ -33,7 +33,7 @@ int	echo_builtin(t_commands *cmd)
 	int	i;
 	char	**args;
 
-	args = cmd->builtin;
+	args = cmd->cmd_args;
 	if (!args[1])
 	{
 		printf("\n");
@@ -46,7 +46,7 @@ int	echo_builtin(t_commands *cmd)
 	while (args[i])
 	{
 		printf("%s", args[i]);
-		if (args[i++])
+		if (args[++i])
 			printf(" ");
 	}
 	if (flag != 1)

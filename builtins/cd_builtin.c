@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:41:36 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/14 21:40:51 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:21:44 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	update_wd(t_minishell *mini, char *wd)
 {
@@ -30,7 +30,7 @@ static void	update_wd(t_minishell *mini, char *wd)
 	}
 }
 
-static int	chdir_errno_mod(char *path)
+static int	chdir_errno_mod(void)
 {
 	if (errno == ESTALE)
 		errno = ENOENT;
@@ -46,7 +46,7 @@ static int	change_dir(t_minishell *mini, char *path)
 
 	ret = NULL;
 	if (chdir(path) != 0)
-		return (chdir_errno_mod(path));
+		return (chdir_errno_mod());
 	ret = getcwd(cwd, PATH_MAX);
 	if(!ret)
 	{
@@ -67,7 +67,7 @@ int	cd_builtin(t_minishell *mini, t_commands *cmd)
 	char	*path;
 	char	**args;
 
-	args = cmd->builtin;
+	args = cmd->cmd_args;
 	if (!args[1] || space_char(args[1][0]) == 1 
 			|| args[1][0] == '\0' || ft_strncmp(args[1], "--", 3) == 0)
 	{
