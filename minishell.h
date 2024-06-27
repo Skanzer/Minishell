@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/27 15:16:56 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:03:48 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ int					dup_in_redir(t_minishell *minishell, t_commands *cmd);
 int					dup_out_redir(t_minishell *minishell, t_commands *cmd);
 void				cmd_execution(t_commands *command, char **env);
 int					execute_builtin(t_minishell *mini, t_commands *cmd);
+int					prep_out_redir(t_minishell *minishell);
 //////////////env_to_double.c////////////////////////////////////////////////
 char				**env_double(t_env *env);
 //////////////error_msg.c////////////////////////////////////////////////////
