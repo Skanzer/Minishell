@@ -6,12 +6,17 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:20:12 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/27 17:04:01 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:39:16 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief This function executes the builtin commands.
+ * it compares the name of the command with the builtin commands
+ * and executes them.
+ */
 int	execute_builtin(t_minishell *mini, t_commands *cmd)
 {
 	if (ft_strcmp(cmd->cmd_args[0], "cd") == 0)
@@ -31,6 +36,11 @@ int	execute_builtin(t_minishell *mini, t_commands *cmd)
 	return (0);
 }
 
+/**
+ * @brief This function checks if the command is executable or builtin
+ * @param minishell The minishell structure
+ * @param env The environment variables ina double array format
+ */
 int	execute_one_cmd(t_minishell *minishell, char **env)
 {
 	int		status;

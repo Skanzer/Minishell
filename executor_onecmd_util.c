@@ -6,12 +6,16 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:58:21 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/27 17:03:31 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 14:23:08 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief This function checks if the file is readble and opens it for reading
+ * and puts the file descriptor in the infile_fd variable
+ */
 static int	infile_fd(t_minishell *minishell)
 {
 	minishell->commands->infile_fd = open(minishell->commands->infile, \
@@ -26,6 +30,12 @@ static int	infile_fd(t_minishell *minishell)
 	return (SUCCESS);
 }
 
+/**
+ * @brief This function preps the output redirection
+ * if it's an outfile it opens the file for writing
+ * if it's an append it opens the file for appending
+ * and puts the file descriptor in the outfile_fd variable
+ */
 int	prep_out_redir(t_minishell *minishell)
 {
 	t_commands	*tmp;
@@ -50,6 +60,11 @@ int	prep_out_redir(t_minishell *minishell)
 	return (SUCCESS);
 }
 
+/**
+ * @brief This function preps the input redirection
+ * if it's an infile it calls the infile_fd function
+ * and if it's a heredoc it creates a pipe and writes the heredoc to the pipe
+ */
 static int	prep_in_redir(t_minishell *minishell)
 {
 	int		pipe_fd[2];
@@ -76,6 +91,12 @@ static int	prep_in_redir(t_minishell *minishell)
 	return (SUCCESS);
 }
 
+/**
+ * @brief This function sets the right in- and output redirections
+ * and then executes the command 
+ * @param minishell The minishell structure
+ * @param env The environment variables in a double array format
+ */
 static int	run_onechild(t_minishell *minishell, char **env)
 {
 	if (prep_in_redir(minishell) == EXIT_FAILURE)
@@ -90,10 +111,16 @@ static int	run_onechild(t_minishell *minishell, char **env)
 		free_double(env);
 		exit(EXIT_FAILURE);
 	}
-	cmd_execution(minishell->commands, env);
+	cmd_execution(minishell, minishell->commands, env);
 	return (SUCCESS);
 }
 
+/**
+ * @brief When a command is executable and not a builtin, this function is used
+ * it forks and executes the command
+ * @param minishell The minishell structure
+ * @param env The environment variables in a double array format
+ */
 int fork_onecmd(t_minishell *minishell, char **env)
 {
 	int	status;

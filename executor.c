@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:04:09 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/06 15:42:41 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:28:37 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	run_multichild(t_minishell *minishell, char **env)
 		exit(EXIT_FAILURE);
 	if (dup_out_redir(minishell, cmd) == EXIT_FAILURE)
 		exit(EXIT_FAILURE);
-	cmd_execution(cmd, env);
+	cmd_execution(minishell, cmd, env);
 	return (SUCCESS);
 }
 
