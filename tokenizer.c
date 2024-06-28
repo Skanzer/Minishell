@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/18 13:03:29 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:04:40 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static t_commands	*init_commands(t_minishell *mini)
 	commands->infile_fd = -1;
 	commands->outfile_fd = -1;
 	commands->quoted_heredoc = 0;
+	commands->exit_status = mini->exit_status;
 	return (commands);
 }
 
