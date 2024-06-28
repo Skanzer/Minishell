@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:52:08 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/14 14:35:51 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:29:10 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@
  * @param command the command that contains the heredoc
  * @param line the line to process
  */
-char	*process_line(t_commands *command, char *line)
+static char	*process_line(t_commands *cmd, char *line)
 {
 	char	*tmp;
 
-	if (command->quoted_heredoc == 1)
+	if (cmd->quoted_heredoc != 1)
 	{
-		if (input_expansion (line, command->env) == ALLOC_ERROR)
+		line = input_expansion(line, cmd->env, cmd->exit_status);
+		if (line == NULL)
 			return (NULL);
 	}
 	tmp = ft_strjoin(line, "\n");
@@ -40,7 +41,7 @@ char	*process_line(t_commands *command, char *line)
  * @brief This function reads the prompt from the user
  * @param eof the end of file token
  */
-char	*read_prompt(char *eof)
+static char	*read_prompt(char *eof)
 {
 	char	*line;
 
@@ -61,7 +62,7 @@ char	*read_prompt(char *eof)
  * @param command the command that contains the heredoc
  * @param eof the end of file token
  */
-char	*read_heredoc(t_commands *command, char *eof)
+static char	*read_heredoc(t_commands *command, char *eof)
 {
 	char	*line;
 	char	*heredoc;

@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:45:17 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 17:24:37 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:30:01 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	quotes_deleter_all(t_commands *commands)
 	{
 		if (tmp->type == HEREDOC)
 		{
-			if (ft_strchr(tmp->token, '\"') != NULL \
-				|| ft_strchr(tmp->token, '\'') != NULL)
+			if (ft_strchr(tmp->next->token, '\"') != NULL \
+				|| ft_strchr(tmp->next->token, '\'') != NULL)
 				commands->quoted_heredoc = 1;
 		}
 		ret = quotes_deleter(tmp);
