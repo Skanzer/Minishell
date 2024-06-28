@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:45:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 17:18:53 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:04:16 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char	*handle_expansion(char *input, int i, t_env *env)
  * @param input the input string
  * @param env the environment variables
  */
-int	input_expansion(char *input, t_env *env)
+char	*input_expansion(char *input, t_env *env, int exit_status)
 {
 	int		i;
 
@@ -130,12 +130,18 @@ int	input_expansion(char *input, t_env *env)
 			i++;
 		else if (input[i] == '$' && end_var_name(input[i + 1]) == 1)
 			i = i + 1;
+		else if (input[i] == '$' && input[i + 1] == '?')
+		{
+			input = insert_var(input, i, ft_itoa(exit_status), "?");
+			if (!input)
+				return (NULL);
+		}
 		else if (input[i] == '$')
 		{
 			input = handle_expansion(input, i, env);
 			if (!input)
-				return (ALLOC_ERROR);
+				return (NULL);
 		}
 	}
-	return (SUCCESS);
+	return (input);
 }
