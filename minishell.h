@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/27 17:03:48 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:04:30 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_commands
 	char				*heredoc;
 	int					quoted_heredoc;
 	int					index;
+	size_t				exit_status;
 	struct s_commands	*next;
 }	t_commands;
 
@@ -146,7 +147,7 @@ int					redirection_error(char *input);
 int					after_redir_check(t_commands *commands);
 int					empty_input(char *input);
 ////////////expander.c////////////////////////////////////////////////
-int					input_expansion(char *input, t_env *env);
+char				*input_expansion(char *input, t_env *env, int exit_status);
 char				*insert_var(char *input, int i, char *value, char *name);
 void				skip_single_quotes(char *input, int *i);
 char				*get_var_value(char *var, t_env *env);
@@ -199,7 +200,7 @@ int					dup_infile(t_minishell *minishell, t_commands *cmd);
 int					dup_heredoc(t_minishell *minishell, t_commands *cmd);
 int					dup_in_redir(t_minishell *minishell, t_commands *cmd);
 int					dup_out_redir(t_minishell *minishell, t_commands *cmd);
-void				cmd_execution(t_commands *command, char **env);
+void				cmd_execution(t_minishell *mini, t_commands *command, char **env);
 int					execute_builtin(t_minishell *mini, t_commands *cmd);
 int					prep_out_redir(t_minishell *minishell);
 //////////////env_to_double.c////////////////////////////////////////////////

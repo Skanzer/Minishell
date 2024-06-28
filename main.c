@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/27 16:58:42 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:05:21 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		else
 		{
-			if (input_expansion(minishell.input, minishell.env) == ALLOC_ERROR)
+			minishell.input = input_expansion(minishell.input, minishell.env, minishell.exit_status);
+			if (minishell.input == NULL)
 			{
 				printf("Error: failed to expand input\n");
 				free_shell(&minishell);
@@ -117,6 +118,7 @@ int	main(int argc, char **argv, char **env)
 				return (1);
 			}
 			printf("exit status: %ld\n", minishell.exit_status);
+			free_commands(minishell.commands);
 			minishell.commands = NULL;
 			free(minishell.input);
 			minishell.input = NULL;
