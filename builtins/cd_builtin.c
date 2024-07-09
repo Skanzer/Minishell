@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:41:36 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/19 19:21:44 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:21:00 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 static void	update_wd(t_minishell *mini, char *wd)
 {
-	/*
-	set_env_var(mini, "OLDPWD")
-	set_env_var(mini, "PWD")
-	*/
+	char	**tmp;
+
+	tmp = ft_calloc(3, sizeof(char *));
+	tmp[0] = ft_strdup("OLDPWD");
+	tmp[1] = ft_strdup(mini->pwd);
+	tmp[2] = NULL;
+	set_env_var(tmp, mini->env);
+	free(tmp[0]);
+	free(tmp[1]);
+	tmp[0] = ft_strdup("PWD");
+	tmp[1] = ft_strdup(wd);
+	set_env_var(tmp, mini->env);
+	free_double(tmp);
 	if (mini->old_pwd)
 	{
 		free(mini->old_pwd);

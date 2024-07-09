@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:23:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/27 14:39:27 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:48:30 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	**get_var(char *arg)
 	return (tmp);
 }
 
-static int	set_env_var(char **var, t_env *env)
+int	set_env_var(char **var, t_env *env)
 {
 	t_env	*tmp;
 

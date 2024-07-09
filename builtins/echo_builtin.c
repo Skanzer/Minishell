@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 21:43:04 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/20 12:02:04 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:39:37 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int	nflag_check(char *arg)
 
 int	echo_builtin(t_commands *cmd)
 {
-	int	flag;
-	int	i;
+	int		flag;
+	int		i;
 	char	**args;
 
 	args = cmd->cmd_args;
