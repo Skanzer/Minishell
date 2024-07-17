@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:20:12 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 13:39:16 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:57:36 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	execute_builtin(t_minishell *mini, t_commands *cmd)
 		return (pwd_builtin(mini));
 	else if (ft_strcmp(cmd->cmd_args[0], "unset") == 0)
 		return (unset_builtin(mini));
-	/*else if (ft_strcmp(cmd->cmd_args[0], "exit") == 0)
-		return (exit_builtin(mini));*/
+	else if (ft_strcmp(cmd->cmd_args[0], "exit") == 0)
+		return (exit_builtin(mini, cmd));
 	return (0);
 }
 
@@ -57,8 +57,11 @@ int	execute_one_cmd(t_minishell *minishell, char **env)
 		test = dup(STDOUT_FILENO);
 		prep_out_redir(minishell);
 		status = execute_builtin(minishell, minishell->commands);
-		dup2(test, STDOUT_FILENO);
-		close(minishell->commands->outfile_fd);
+		if (minishell->commands->outfile_fd != -1)
+		{
+			dup2(test, STDOUT_FILENO);
+			close(minishell->commands->outfile_fd);
+		}
 		free_double(env);
 	}
 	else

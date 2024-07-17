@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:48:40 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/16 13:22:29 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:52:47 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	get_env(t_minishell *mini, char **env)
 		i++;
 		if (!env[i])
 			break ;
-		copy->next = malloc(sizeof(t_env));
+		copy->next = ft_calloc(1, sizeof(t_env));
 		if (!copy->next)
 			return (free_env(mini), ALLOC_ERROR);
 		copy = copy->next;
