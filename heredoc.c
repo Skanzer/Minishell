@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:52:08 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 17:29:10 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:18:28 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ static char	*read_heredoc(t_commands *command, char *eof)
 	while (1)
 	{
 		line = read_prompt(eof);
-		if (!line)
-			return (NULL);
+		if (!line || interrupt == 1)
+			return (free(heredoc), NULL);
 		else if (ft_strcmp(line, "") == 0)
 			break ;
 		line = process_line(command, line);
@@ -110,7 +110,10 @@ int	heredoc(t_commands *commands)
 		{
 			if (tmp->heredoc)
 				free(tmp->heredoc);
+			sig_handler();
 			tmp->heredoc = read_heredoc(tmp, token->next->token);
+			if (interrupt == 1)
+				break ;
 			if (tmp->heredoc == NULL)
 				return (ALLOC_ERROR);
 			token = find_token(token->next, HEREDOC);
