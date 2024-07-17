@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:44:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 17:04:30 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:56:14 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 # include <readline/history.h>
 //libft
 # include "./libft/libft.h"
+
+extern int interrupt;
 
 # define ANSI_RESET   "\x1B[0m"
 # define ANSI_RED     "\x1B[31m"
@@ -212,8 +214,12 @@ int					cd_builtin(t_minishell *mini, t_commands *cmd);
 int					echo_builtin(t_commands *cmd);
 int					env_builtin(t_commands *cmd);
 int					export_builtin(t_commands *cmd);
+int					set_env_var(char **var, t_env *env);
 int					pwd_builtin(t_minishell *mini);
 int					is_valid_env_var_key(char *var);
 int					unset_builtin(t_minishell *mini);
+int					exit_builtin(t_minishell *mini, t_commands *cmd);
+//////////////signals.c//////////////////////////////////////////////////////
+void				sig_handler(void);
 
 #endif

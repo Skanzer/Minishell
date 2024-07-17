@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:23:19 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 17:05:21 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:01:34 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	init_shell(t_minishell *minishell, char **env, int argc, char **argv)
 	if (argc != 1)
 	{
 		printf("argv[0]: %s is the only argument needed to run minishell\n", argv[0]);
-		return (1);		
+		return (1);
 	}
 	minishell->env = ft_calloc(1, sizeof(t_env));
 	if (!minishell->env)
@@ -45,12 +45,11 @@ int	init_shell(t_minishell *minishell, char **env, int argc, char **argv)
 	return (0);
 }
 
+int interrupt = 0;
 
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
-	//t_commands	*commands;
-	//t_tokens	*tokens;
 
 	if (init_shell(&minishell, env, argc, argv) == ALLOC_ERROR)
 	{
@@ -60,11 +59,13 @@ int	main(int argc, char **argv, char **env)
 	}
 	while (1)
 	{
-		
+		interrupt = 0;
+		rl_done = 0;
+		sig_handler();
 		minishell.input = read_input(&minishell);
 		if (!minishell.input)
 		{
-			printf("Error: failed to read input\n");
+			printf("exit\n");
 			free_shell(&minishell);
 			return (1);
 		}
@@ -75,21 +76,29 @@ int	main(int argc, char **argv, char **env)
 			minishell.input = input_expansion(minishell.input, minishell.env, minishell.exit_status);
 			if (minishell.input == NULL)
 			{
-				printf("Error: failed to expand input\n");
+				printf("exit\n");
 				free_shell(&minishell);
-				return (1);
+				return (0);
 			}
 			if (tokenizer(&minishell) == ALLOC_ERROR)
 			{
-				printf("Error: failed to allocate memory for minishell\n");
+				printf("exit\n");
 				free_shell(&minishell);
-				return (1);
+				return (0);
 			}
 			if (heredoc(minishell.commands) == ALLOC_ERROR)
 			{
-				printf("Error: failed to allocate memory for minishell\n");
+				printf("exit\n");
 				free_shell(&minishell);
-				return (1);
+				return (0);
+			}
+			if (interrupt == 1)
+			{
+				free_commands(minishell.commands);
+				minishell.commands = NULL;
+				free(minishell.input);
+				minishell.input = NULL;
+				continue;
 			}
 			if (input_redir(minishell.commands) == 1)
 			{
@@ -107,7 +116,7 @@ int	main(int argc, char **argv, char **env)
 			last_redir(minishell.commands);
 			if (create_cmd_args(minishell.commands) == ALLOC_ERROR)
 			{
-				printf("Error: failed to allocate memory for minishell\n");
+				printf("exit\n");
 				free_shell(&minishell);
 				return (1);
 			}
@@ -117,8 +126,6 @@ int	main(int argc, char **argv, char **env)
 				free_shell(&minishell);
 				return (1);
 			}
-			printf("exit status: %ld\n", minishell.exit_status);
-			free_commands(minishell.commands);
 			minishell.commands = NULL;
 			free(minishell.input);
 			minishell.input = NULL;
