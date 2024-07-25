@@ -6,16 +6,16 @@
 /*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:20:23 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/14 17:05:33 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:11:14 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int error_msg(char *cmd, char *msg, int error_nb)
+int	error_msg(char *cmd, char *msg, int error_nb)
 {
 	char	*error_msg;
-	char 	*tmp;
+	char	*tmp;
 
 	error_msg = ft_strjoin("Minishell: ", cmd);
 	tmp = ft_strjoin(error_msg, ": ");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:37:25 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/29 14:21:52 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:51:25 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,10 @@ int	open_file(char *file_name, int w_r)
 	if (ret == -1)
 		perror(file_name);
 	return (ret);
+}
+
+void	free_print_shell(t_minishell *mini)
+{
+	printf("Error: failed to allocate memory for minishell\n");
+	free_shell(mini);
 }

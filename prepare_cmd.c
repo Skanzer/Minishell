@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 08:08:21 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/18 13:20:33 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:42:02 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ char	*get_from_env(t_env *env, char *name)
 }
 
 /**
- * @brief This function creates the command path by joining the path from the PATH
+ * @brief This function creates the command path 
+ * by joining the path from the PATH
  * environment variable with the command name.
  * If the command name contains a '/', it returns the command name.
  * @param command The command linked list.
@@ -98,10 +99,10 @@ char	*join_path(t_commands *command, char *cmd)
 	int		i;
 
 	if (ft_strchr(cmd, '/'))
-		return (cmd);
+		return (ft_strdup(cmd));
 	env_path = ft_split(get_from_env(command->env, "PATH"), ':');
 	if (!env_path)
-		return (NULL);
+		return (ft_strdup(cmd));
 	i = 0;
 	while (env_path[i])
 	{
@@ -116,15 +117,17 @@ char	*join_path(t_commands *command, char *cmd)
 		free (path);
 	}
 	free_double(env_path);
-	return (cmd);
+	return (ft_strdup(cmd));
 }
 
 /**
- * @brief This function creates the command path and the command arguments.
+ * @brief This function creates the command path 
+ * and the command arguments.
  * it goes through the commands linked list and creates the command path
  * and the command arguments for each command.
  * @param commands The commands linked list.
- * @return int Returns 0 if the function was successful, 1 if there was an allocation error.
+ * @return int Returns 0 if the function was successful, 
+ * 1 if there was an allocation error.
  */
 int	create_cmd_args(t_commands *commands)
 {
@@ -144,7 +147,7 @@ int	create_cmd_args(t_commands *commands)
 		{
 			tmp->cmd_path = join_path(tmp, tmp->tokens->token);
 			if (!tmp->cmd_path)
-				return (ALLOC_ERROR);	
+				return (ALLOC_ERROR);
 		}
 		tmp->cmd_args = put_in_dbl(tmp->tokens);
 		if (tmp->cmd_args == NULL)

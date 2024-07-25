@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 15:08:03 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 15:32:34 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:35:01 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	skip_single_quotes(char *input, int *i)
 	while (input[*i] && input[*i] != '\'')
 		(*i)++;
 	(*i)++;
+}
+
+static void	insert_var_fix(char *input, char *tmp, int j)
+{
+	tmp[j] = '\0';
+	free(input);
 }
 
 /**This function inserts the var value to the string
@@ -52,10 +58,11 @@ char	*insert_var(char *input, int i, char *value, char *name)
 			while (*value)
 				tmp[j++] = *value++;
 		}
+		if (input[k] == '\0')
+			break ;
 		tmp[j++] = input[k++];
 	}
-	tmp[j] = '\0';
-	free(input);
+	insert_var_fix(input, tmp, j);
 	return (tmp);
 }
 

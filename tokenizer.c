@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:37 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 15:04:40 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:15:25 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,7 @@ static t_commands	*init_commands(t_minishell *mini)
 	if (!commands)
 		return (NULL);
 	commands->env = mini->env;
-	commands->command = NULL;
-	commands->tokens = NULL;
 	commands->builtin = 0;
-	commands->cmd_path = NULL;
-	commands->cmd_args = NULL;
-	commands->infile = NULL;
-	commands->outfile = NULL;
-	commands->append = NULL;
-	commands->heredoc = NULL;
-	commands->next = NULL;
 	commands->infile_fd = -1;
 	commands->outfile_fd = -1;
 	commands->quoted_heredoc = 0;
@@ -77,6 +68,7 @@ static int	put_commands(t_minishell *mini, char **split)
 			return (ALLOC_ERROR);
 		ft_strcpy(tmp->command, split[i]);
 		i++;
+		tmp->next = NULL;
 		if (!split[i])
 			break ;
 		tmp->next = init_commands(mini);
@@ -102,6 +94,7 @@ int	tokenizer(t_minishell *mini)
 	if (put_commands(mini, split) == ALLOC_ERROR)
 	{
 		free_double(split);
+		free_commands(mini->commands);
 		return (ALLOC_ERROR);
 	}
 	free_double(split);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:23:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 17:48:30 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:25:04 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,24 +87,23 @@ int	export_builtin(t_commands *cmd)
 {
 	int		ret;
 	int		i;
-	char	**args;
 	char	**var;
 
 	ret = SUCCESS;
 	i = 1;
-	args = cmd->cmd_args;
-	if (!args[i])
+	if (!cmd->cmd_args[i])
 		return (printf_env(cmd->env));
-	while (args[i])
+	while (cmd->cmd_args[i])
 	{
-		if (is_valid_env_var_key(args[i]) == 0)
+		if (is_valid_env_var_key(cmd->cmd_args[i]) == 0)
 		{
-			printf("Minishell: export: `%s': not a valid identifier\n", args[i]);
+			printf("Minishell: export: `%s': not a valid identifier\n", \
+			cmd->cmd_args[i]);
 			ret = EXIT_FAILURE;
 		}
-		else if (ft_strchr(args[i], '=') != NULL)
+		else if (ft_strchr(cmd->cmd_args[i], '=') != NULL)
 		{
-			var = get_var(args[i]);
+			var = get_var(cmd->cmd_args[i]);
 			set_env_var(var, cmd->env);
 			free_double(var);
 		}

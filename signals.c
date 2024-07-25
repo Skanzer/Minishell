@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:08:27 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/07/15 17:17:56 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:14:35 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 void	sigint_handler(int signum)
 {
 	(void)signum;
-	interrupt = 1;
-	rl_replace_line("", 0);
-	rl_done = 1;
+	g_interrupt = 1;
 	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_done = 1;
 }
 
 void	sig_quit(void)

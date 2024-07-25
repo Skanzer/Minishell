@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_onecmd_util.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:58:21 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/07/09 16:45:16 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:48:37 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,11 @@ static int	run_onechild(t_minishell *minishell, char **env)
  * @param minishell The minishell structure
  * @param env The environment variables in a double array format
  */
-int fork_onecmd(t_minishell *minishell, char **env)
+int	fork_onecmd(t_minishell *minishell, char **env)
 {
 	int	status;
 
+	status = 0;
 	minishell->pid = fork();
 	if (minishell->pid == -1)
 	{
@@ -134,12 +135,9 @@ int fork_onecmd(t_minishell *minishell, char **env)
 	if (minishell->pid == 0)
 	{
 		if (run_onechild(minishell, env) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+			status = EXIT_FAILURE;
 	}
 	else
-	{
-		free_double(env);
 		waitpid(minishell->pid, &status, 0);
-	}
 	return (status);
 }

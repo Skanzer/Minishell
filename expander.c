@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:45:31 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 17:04:16 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:47:44 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,19 @@ static char	*remove_var(char *input, int i, int len)
 	int		j;
 	int		k;
 
-	tmp = malloc(sizeof(char) * (ft_strlen(input) - len));
+	tmp = ft_calloc((ft_strlen(input) - len + 1), (sizeof(char)));
 	if (!tmp)
 		return (NULL);
+	else if ((ft_strlen(input) - len) == 0)
+		return (tmp);
 	j = 0;
 	k = 0;
 	while (input[j])
 	{
 		if (j == i)
-			j = j + len + 1;
+			j = j + len;
+		if (input[j] == '\0')
+			break ;
 		tmp[k] = input[j];
 		j++;
 		k++;

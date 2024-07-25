@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+         #
+#    By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 16:42:33 by szerzeri          #+#    #+#              #
-#    Updated: 2024/07/17 16:56:31 by szerzeri         ###   ########.fr        #
+#    Updated: 2024/07/19 15:52:36 by szerzeri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,9 @@ executor_outredir.c\
 env_to_double.c\
 error_msg.c\
 signals.c\
+program_steps.c\
+program_steps_1.c\
+init.c\
 ./builtins/cd_builtin.c\
 ./builtins/echo_builtin.c\
 ./builtins/env_builtin.c\

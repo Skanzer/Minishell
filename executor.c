@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:04:09 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 13:28:37 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:09:10 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int	fork_and_exec(t_minishell *minishell, char **env)
 		minishell->pid = fork();
 		if (minishell->pid == -1)
 		{
-			perror("Fork");
 			free_double(env);
 			free_shell(minishell);
 			exit(EXIT_FAILURE);
@@ -119,14 +118,13 @@ int	executor(t_minishell *minishell)
 	if (minishell->nb_cmd == 1)
 	{
 		minishell->exit_status = WEXITSTATUS(execute_one_cmd(minishell, env));
+		free_double(env);
 		return (minishell->exit_status);
 	}
 	else
 	{
 		minishell->exit_status = WEXITSTATUS(execute_cmds(minishell, env));
-		minishell->index_cmd = -1;
-		close_pipe_fd(minishell);
-		free_pipe(minishell, minishell->pipe_fd);
+		free_double(env);
 		return (minishell->exit_status);
 	}
 	return (SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:45:57 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/28 13:36:19 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:16:37 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	cmd_execution(t_minishell *mini, t_commands *command, char **env)
 		free_double(env);
 		exit (ret);
 	}
-	if (access(command->cmd_path, F_OK | R_OK) == -1)
+	if (access(command->cmd_path, F_OK) == -1)
 	{
 		error_msg(command->cmd_args[0], "command not found", CMD_NOT_FOUND);
 		free_double(env);

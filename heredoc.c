@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:52:08 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/07/09 20:18:28 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:53:22 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static char	*read_heredoc(t_commands *command, char *eof)
 	while (1)
 	{
 		line = read_prompt(eof);
-		if (!line || interrupt == 1)
+		if (!line || g_interrupt == 1)
 			return (free(heredoc), NULL);
 		else if (ft_strcmp(line, "") == 0)
 			break ;
@@ -112,7 +112,7 @@ int	heredoc(t_commands *commands)
 				free(tmp->heredoc);
 			sig_handler();
 			tmp->heredoc = read_heredoc(tmp, token->next->token);
-			if (interrupt == 1)
+			if (g_interrupt == 1)
 				break ;
 			if (tmp->heredoc == NULL)
 				return (ALLOC_ERROR);

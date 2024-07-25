@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_onecmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:20:12 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/07/17 16:57:36 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:07:48 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	execute_one_cmd(t_minishell *minishell, char **env)
 			dup2(test, STDOUT_FILENO);
 			close(minishell->commands->outfile_fd);
 		}
-		free_double(env);
 	}
 	else
 		status = fork_onecmd(minishell, env);

@@ -62,8 +62,10 @@ void	free_shell(t_minishell *minishell)
 		free(minishell->old_pwd);
 	if (minishell->pwd)
 		free(minishell->pwd);
-	free_env(minishell);
-	free_commands(minishell->commands);
+	if (minishell->env)
+		free_env(minishell);
+	if (minishell->commands)
+		free_commands(minishell->commands);
 	if (minishell->pipe_fd)
 		free_pipe(minishell, minishell->pipe_fd);
 }

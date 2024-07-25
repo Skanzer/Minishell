@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:51:29 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/07/10 19:44:38 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:36:11 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*prompt_color(char *name, char *color, char *c)
 static char	*join_prompt(char *prompt, t_minishell *mini)
 {
 	char	*tmp;
- 
+
 	tmp = ft_strjoin(prompt, mini->pwd);
 	free(prompt);
 	if (!tmp)

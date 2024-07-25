@@ -6,7 +6,7 @@
 /*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:18:51 by szerzeri          #+#    #+#             */
-/*   Updated: 2023/01/12 21:04:51 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:28:21 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_itoa(int n)
 
 	len = ft_int_len(n);
 	tmp = n;
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = ft_calloc((len + 1), sizeof(char));
 	if (!str)
 		return (NULL);
 	if (n < 0)

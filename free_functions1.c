@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_functions1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 17:04:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/07/04 16:39:02 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:00:21 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	free_commands(t_commands *commands)
 	{
 		tmp = commands;
 		commands = commands->next;
-		free(tmp->command);
+		if (tmp->command)
+			free(tmp->command);
 		if (tmp->tokens)
 			free_tokens(tmp->tokens);
 		if (tmp->cmd_path)

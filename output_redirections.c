@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:48:35 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/05/22 11:10:10 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:15:36 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

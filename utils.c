@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerzeri <szerzeri@42berlin.student.de>    +#+  +:+       +#+        */
+/*   By: szerzeri <szerzeri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:29:05 by szerzeri          #+#    #+#             */
-/*   Updated: 2024/06/18 13:19:41 by szerzeri         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:45:34 by szerzeri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ unsigned int	ft_strcpy(char *dest, const char *src)
 
 int	end_var_name(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n')
+	if (c == ' ' || c == '\t' || c == '\n' || c == '"')
 		return (1);
 	else if (c == '\v' || c == '\f' || c == '\r')
 		return (1);
